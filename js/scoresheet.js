@@ -1,6 +1,5 @@
-// scoresheet object
-(function( scoresheet, $, undefined ) {
-
+// scoresheet class
+(function( alseis, $, undefined ) {
   // private members
   var first_shot_bonus = 5;
   var actual_scores = {
@@ -19,16 +18,6 @@
     '_yahtzee': actual_scores['_yahtzee'] + first_shot_bonus
   };
 
-  var notes = {
-    '_4': undefined,
-    '_5': undefined,
-    '_6': undefined,
-    '_straight': undefined,
-    '_fullhouse': undefined,
-    '_four_of_a_kind': undefined,
-    '_yahtzee': undefined
-  };
-
   var _single_score = function(play, val) {
     if (play == '_4')
       return 4*val;
@@ -40,10 +29,22 @@
       return actual_scores[play];
   };
 
-  // public members
+  alseis.Scoresheet = function() {
+    this.notes = {
+      '_4': undefined,
+      '_5': undefined,
+      '_6': undefined,
+      '_straight': undefined,
+      '_fullhouse': undefined,
+      '_four_of_a_kind': undefined,
+      '_yahtzee': undefined
+    };
+  };
+
+  // public methods 
 
   /* takes note of a play */
-  scoresheet.note = function(play, val, bonus) {
+  alseis.Scoresheet.prototype.Note = function(play, val, bonus) {
     // TODO: add check for notes already commited
     notes[play] = _single_score(play, val) + (bonus ? first_shot_bonus : 0);
   };
@@ -56,27 +57,27 @@
   }
 
   /* returns current cumulative score */
-  scoresheet.current_score = function() {
+  alseis.Scoresheet.prototype.CurrentScore = function() {
     var _current_score = 0;
-    for (var p in notes) {
-      if (notes.hasOwnProperty(p)) {
-        _current_score += notes[p] ? notes[p] : 0;
+    for (var p in this.notes) {
+      if (this.notes.hasOwnProperty(p)) {
+        _current_score += this.notes[p] ? this.notes[p] : 0;
       }
     }
     return _current_score;
   };
 
   /* returns max possible score */
-  scoresheet.max_score = function() {
+  alseis.Scoresheet.prototype.MaxScore = function() {
     var _max_score = 0;
-    for (var p in notes) {
-      if (notes.hasOwnProperty(p)) {
-        _max_score += notes[p] ? notes[p] : max_notes_score[p];
+    for (var p in this.notes) {
+      if (this.notes.hasOwnProperty(p)) {
+        _max_score += this.notes[p] ? this.notes[p] : max_notes_score[p];
       }
     }
     return _max_score;
   }
 
-}( window.scoresheet = window.scoresheet || {}, jQuery ));
+}( window.alseis = window.alseis || {}, jQuery ));
 
 

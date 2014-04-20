@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- al seis -->
+    <link href="css/alseis.css" rel="stylesheet">
+  </head>
+  <body>
+
+    <h1>Al seis</h1>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Vamos al cine
+      </div>
+      <div class="panel-body">
+        <p>
+        Acá ponemos algunos botones?
+        </p>
+      </div>
+
+      <!-- ONE COLUMN FOR EACH SHEET -->
+      <div class="table-responsive">
+      <table id="scoresheets_table" class="table table-bordered">
+        <thead>
+          <tr class="score_play_header success">
+            <th></th>
+          </tr>
+          <tr class="score_players_header success">
+            <th></th>
+          </tr>
+
+        </thead>
+        <tbody>
+          <tr class="total_row warning">
+            <td class="headers_col">Total</td>
+          </tr>
+          <tr class="score_row digits">
+            <td class="headers_col"><img width="32" src="img/dice-04.png">&nbsp;</td>
+          </tr>
+          <tr class="score_row digits">
+            <td class="headers_col"><img width="32" src="img/dice-05.png"></td>
+          </tr>
+          <tr class="score_row digits">
+            <td class="headers_col"><img width="32" src="img/dice-06.png"></td>
+          </tr>
+          <tr class="score_row plays">
+            <td class="headers_col">
+              <img width="16" src="img/dice-06.png">
+              <img width="16" src="img/dice-05.png">
+              <img width="16" src="img/dice-04.png"><br>
+              <img width="16" src="img/dice-03.png">
+              <img width="16" src="img/dice-01.png">
+            </td>
+          </tr>
+          <tr class="score_row plays">
+            <td class="headers_col">
+              <img width="16" src="img/dice-06.png">
+              <img width="16" src="img/dice-06.png">
+              <img width="16" src="img/dice-06.png"><br>
+              <img width="16" src="img/dice-03.png">
+              <img width="16" src="img/dice-03.png">
+            </td>
+          </tr>
+          <tr class="score_row plays">
+            <td class="headers_col">
+              <img width="16" src="img/dice-05.png">
+              <img width="16" src="img/dice-05.png">
+              <img width="16" src="img/dice-05.png"><br>
+              <img width="16" src="img/dice-05.png">
+              <img width="16" src="img/dice-02.png">
+            </td>
+          </tr>
+          <tr class="score_row plays">
+            <td class="headers_col">
+              <img width="16" src="img/dice-02.png">
+              <img width="16" src="img/dice-02.png">
+              <img width="16" src="img/dice-02.png"><br>
+              <img width="16" src="img/dice-02.png">
+              <img width="16" src="img/dice-02.png">
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+
+    <!-- JQUERY -->
+    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <!-- BOOTSTRAP -->
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- AL SEIS -->
+    <script type="text/javascript" src="js/scoresheet.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
+    <script type="text/javascript" src="js/ui.js"></script>
+
+    <!-- LOCAL JAVASCRIPT -->
+    <script type="text/javascript">
+      $(document).ready(function() {
+        // initialization
+
+        alseis.current_game = new alseis.Game({
+          nplayers: 3,
+          nsheets: 3
+        });
+
+        alseis.current_game.players[0].name = 'V';
+        alseis.current_game.players[1].name = 'C';
+        alseis.current_game.players[2].name = 'P';
+
+        for (var i = 0; i < alseis.current_game.config.nplayers; i++) {
+          alseis.add_scoresheet_column(alseis.current_game, i, $('#scoresheets_table'));
+        }
+
+        
+      });
+    </script>
+  </body>
+</html>

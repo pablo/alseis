@@ -1,0 +1,39 @@
+#scoresheets_table .score_row {
+  height: 60px;
+}
+
+#scoresheets_table thead th {
+  text-align: center;
+}
+
+#scoresheets_table .total_row {
+  height: 60px;
+}
+
+#scoresheets_table .headers_col {
+  width: 120px;
+  text-align: center;
+}
+
+#scoresheets_table .score_row td {
+  vertical-align: middle;
+}
+
+#scoresheets_table .total_row td {
+  vertical-align: middle;
+}
+
+#scoresheets_table .score_row td img {
+  vertical-align: middle;
+}
+
+#scoresheets_table .digits {
+  background-color: #f6f6f6;
+}
+
+#scoresheets_table .plays {
+  background-color: #eaeaea;
+
+}
+
+
