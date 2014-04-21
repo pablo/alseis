@@ -12,7 +12,7 @@
     $($table).find('tbody .headers_col').each(function() {
       for (var i = 0; i < game.players.length; i++) 
       {
-        $(this).after('<td></td>');
+        $(this).after('<td class="notecell"></td>');
       }
     });
   };

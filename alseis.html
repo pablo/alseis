@@ -39,16 +39,16 @@
           <tr class="total_row warning">
             <td class="headers_col">Total</td>
           </tr>
-          <tr class="score_row digits">
+          <tr class="score_row digits" data-play="_4">
             <td class="headers_col"><img width="32" src="img/dice-04.png">&nbsp;</td>
           </tr>
-          <tr class="score_row digits">
+          <tr class="score_row digits" data-play="_5">
             <td class="headers_col"><img width="32" src="img/dice-05.png"></td>
           </tr>
-          <tr class="score_row digits">
+          <tr class="score_row digits" data-play="_6">
             <td class="headers_col"><img width="32" src="img/dice-06.png"></td>
           </tr>
-          <tr class="score_row plays">
+          <tr class="score_row plays" data-play="_straight">
             <td class="headers_col">
               <img width="16" src="img/dice-06.png">
               <img width="16" src="img/dice-05.png">
@@ -57,7 +57,7 @@
               <img width="16" src="img/dice-01.png">
             </td>
           </tr>
-          <tr class="score_row plays">
+          <tr class="score_row plays" data-play="_fullhouse">
             <td class="headers_col">
               <img width="16" src="img/dice-06.png">
               <img width="16" src="img/dice-06.png">
@@ -66,7 +66,7 @@
               <img width="16" src="img/dice-03.png">
             </td>
           </tr>
-          <tr class="score_row plays">
+          <tr class="score_row plays" data-play="_four_of_a_kind">
             <td class="headers_col">
               <img width="16" src="img/dice-05.png">
               <img width="16" src="img/dice-05.png">
@@ -75,7 +75,7 @@
               <img width="16" src="img/dice-02.png">
             </td>
           </tr>
-          <tr class="score_row plays">
+          <tr class="score_row plays" data-play="_yahtzee">
             <td class="headers_col">
               <img width="16" src="img/dice-02.png">
               <img width="16" src="img/dice-02.png">
@@ -118,6 +118,10 @@
         for (var i = 0; i < alseis.current_game.config.nplayers; i++) {
           alseis.add_scoresheet_column(alseis.current_game, i, $('#scoresheets_table'));
         }
+
+        $('.notecell').click(function(e) {
+          
+        });
 
         
       });
