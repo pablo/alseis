@@ -43,6 +43,26 @@
 
   // public methods 
 
+  alseis.Scoresheet.GetPlay = function (idx) {
+    switch(idx) {
+      case 0:
+        return '_notecell_4';
+      case 1:
+        return '_notecell_5';
+      case 2:
+        return '_notecell_6';
+      case 3:
+        return '_notecell_straight';
+      case 4:
+        return '_notecell_fullhouse';
+      case 5:
+        return '_notecell_four_of_a_kind';
+      case 6:
+        return '_notecell_yahtzee';
+    }
+    return '';
+  };
+
   /* takes note of a play */
   alseis.Scoresheet.prototype.Note = function(play, val, bonus) {
     // TODO: add check for notes already commited

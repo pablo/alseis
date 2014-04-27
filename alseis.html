@@ -119,9 +119,30 @@
           alseis.add_scoresheet_column(alseis.current_game, i, $('#scoresheets_table'));
         }
 
-        $('.notecell').click(function(e) {
-          
-        });
+        function numbers_options(n)
+        {
+          var ret = '<div class="btn-group">';
+          for (var i=0; i<=5; i++)
+          {
+            ret += '<button type="button" class="btn btn-' + alseis.color_signals[i] + '">' + i*n + '</button>';
+          }
+          ret += '</div>';
+          return ret;
+        }
+
+        for (var i = 4; i <= 6; i++) {
+          $('._notecell_' + i).click(function(e) {
+            $(this).popover({
+              title: alseis.dice_image_tag(32, $(this).data('value')),
+              html: true,
+              content: numbers_options($(this).data('value')),
+              placement: 'bottom',
+              container: 'body',
+              trigger: 'click' 
+            });
+          });
+        }
+
 
         
       });

@@ -9,12 +9,30 @@
         $(this).append('<th>' + game.players[i].name + '</th>');
       }
     });
-    $($table).find('tbody .headers_col').each(function() {
+    $($table).find('tbody .headers_col').each(function(idx, elem) {
       for (var i = 0; i < game.players.length; i++) 
       {
-        $(this).after('<td class="notecell"></td>');
+        $(this).after('<td data-value="' + (idx+3) + '" class="notecell ' + alseis.Scoresheet.GetPlay(idx-1) + '"></td>');
       }
     });
   };
+
+  alseis.color_signals = {
+    0: 'danger',
+    1: 'danger',
+    2: 'warning',
+    3: 'success',
+    4: 'success',
+    5: 'primary'
+  };
+
+  alseis.dice_image = function (v) {
+    return 'img/dice-0' + v + '.png';
+  }
+
+  alseis.dice_image_tag = function(img_size, v) {
+    return '<img width="' + img_size + '" src="' + alseis.dice_image(v) + '"/>';
+  }
+ 
 
 }( window.alseis = window.alseis || {}, jQuery ));
