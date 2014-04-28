@@ -33,7 +33,10 @@
 
 #scoresheets_table .plays {
   background-color: #eaeaea;
+}
 
+.notecell {
+  text-align: center;
 }
 
 

@@ -45,6 +45,32 @@
 
   // public methods 
 
+  // static
+  alseis.Scoresheet.GetColor = function (play, value, bonus) {
+    console.log('play: ' + play + ' - value: ' + value);
+    if (play == '_4' || play == '_5' || play == '_6') {
+      var vv = value;
+      if (vv >= 5)
+        return 'primary';
+      else if (vv >= 4)
+        return 'success';
+      else if (vv >= 2)
+        return 'warning';
+      else 
+        return 'danger';
+    } else {
+      if (value == 0)
+        return 'danger';
+      else if (value == 1 && bonus) 
+        return 'success';
+      else 
+        return 'warning';
+    }
+
+  };
+
+
+  // static
   alseis.Scoresheet.GetPlay = function (idx) {
     switch(idx) {
       case 0:
@@ -67,8 +93,12 @@
 
   alseis.Scoresheet.prototype.UpdateTotal = function()
   {
+    var _html = 
+      '<h2><span class="label label-primary">' + 
+      this.CurrentScore() + 
+      '</span></h2>';
     var _total = "#_" + this.player.no + "_" + this.no;
-    $(_total).text(this.CurrentScore());
+    $(_total).html(_html);
   }
 
 
@@ -80,7 +110,14 @@
 
     // update ui
     var _id = "#_" + this.player.no + "_" + this.no + play;
-    $(_id).text(this.notes[play]);
+
+    var _html = 
+      '<h4><span class="label label-' + 
+      alseis.Scoresheet.GetColor(play, val, bonus) + 
+      '">' + this.notes[play] + 
+      '</span></h4>';
+
+    $(_id).html(_html);
     this.UpdateTotal();
     $(this).trigger('score_changed', [this]);
   };

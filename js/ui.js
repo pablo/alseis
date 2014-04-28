@@ -31,7 +31,7 @@
     0: 'danger',
     1: 'danger',
     2: 'warning',
-    3: 'success',
+    3: 'warning',
     4: 'success',
     5: 'primary'
   };
