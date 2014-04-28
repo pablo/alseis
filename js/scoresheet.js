@@ -65,8 +65,10 @@
 
   /* takes note of a play */
   alseis.Scoresheet.prototype.Note = function(play, val, bonus) {
-    // TODO: add check for notes already commited
-    notes[play] = _single_score(play, val) + (bonus ? first_shot_bonus : 0);
+    // TODO: add check for notes already commited?
+    this.notes[play] = 
+      _single_score(play, val) + (bonus ? first_shot_bonus : 0);
+    $(this).trigger('score_changed');
   };
 
   // local function to get currents

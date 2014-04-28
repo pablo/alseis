@@ -9,14 +9,16 @@
     this.name = null;
     // setup N (sheets) scoresheets
     this.scoresheets = [];
+    var player = this;
     for (var i=0; i < sheets; i++) {
-      this.scoresheets.push(
-        //new alseis.Scoresheet()
-      );
+      var scoresheet = new alseis.Scoresheet();
+      $(scoresheet).on('score_changed', function() {
+        $(player).trigger('score_changed');
+      });
+      this.scoresheets.push(scoresheet);
     }
   };
-
-
+  
   alseis.Player.prototype.Note = function(sheet, play, val, bonus) {
     this.scoresheets[sheet].Note(play, val, bonus);
   };
@@ -31,9 +33,19 @@
   {
     this.config = config;
     this.players = [];
+    var game = this;
     for (var i = 0; i < config.nplayers; i++) {
-      this.players.push(new alseis.Player(config.nsheets));
+      var player = new alseis.Player(config.nsheets);
+      $(player).on('score_changed', function() {
+        $(game).trigger('score_changed');
+      });
+      this.players.push(player);
     }
+  };
+
+  alseis.Game.prototype.Note = function(player, sheet, play, val, bonus)
+  {
+    this.players[player].Note(sheet, play, val, bonus);
   };
 
 }( window.alseis = window.alseis || {}, jQuery ));

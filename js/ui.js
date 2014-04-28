@@ -12,7 +12,15 @@
     $($table).find('tbody .headers_col').each(function(idx, elem) {
       for (var i = 0; i < game.players.length; i++) 
       {
-        $(this).after('<td data-value="' + (idx+3) + '" class="notecell ' + alseis.Scoresheet.GetPlay(idx-1) + '"></td>');
+        var $inserted = $(
+          '<td class="notecell ' + 
+          alseis.Scoresheet.GetPlay(idx-1) + 
+          '"></td>'
+        );
+        $inserted.attr('data-value', idx + 3);
+        $inserted.attr('data-player', i);
+        $inserted.attr('data-scoresheet', scoresheet_no);
+        var $row = $(this).after($inserted);
       }
     });
   };
@@ -31,8 +39,6 @@
   }
 
   alseis.dice_image_tag = function(img_size, v) {
-    return '<img width="' + img_size + '" src="' + alseis.dice_image(v) + '"/>';
-  }
- 
+    return '<img width="' + img_size + '" src="' + alseis.dice_image(v) + '"/>'; } 
 
 }( window.alseis = window.alseis || {}, jQuery ));

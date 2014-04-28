@@ -111,6 +111,12 @@
           nsheets: 3
         });
 
+        $(alseis.current_game).on('score_changed', function() {
+          // update UI with scores
+          console.log('update!');
+
+        });
+
         alseis.current_game.players[0].name = 'V';
         alseis.current_game.players[1].name = 'C';
         alseis.current_game.players[2].name = 'P';
@@ -124,7 +130,10 @@
           var ret = '<div class="btn-group">';
           for (var i=0; i<=5; i++)
           {
-            ret += '<button type="button" class="btn btn-' + alseis.color_signals[i] + '">' + i*n + '</button>';
+            ret += '<button type="button" class="btn btn-' + 
+                    alseis.color_signals[i] + 
+                    ' btnsetplay" data-value="' + (i*n) + 
+                    '">' + i*n + '</button>';
           }
           ret += '</div>';
           return ret;
@@ -132,16 +141,34 @@
 
         for (var i = 4; i <= 6; i++) {
           $('._notecell_' + i).click(function(e) {
-            $(this).popover({
+            var $lep = $(this).popover({
               title: alseis.dice_image_tag(32, $(this).data('value')),
               html: true,
               content: numbers_options($(this).data('value')),
               placement: 'bottom',
               container: 'body',
               trigger: 'click' 
-            });
+            }).on('shown.bs.popover', function(e) {
+              $popover = $(this);
+              $('.btnsetplay').on('click', function(e) {
+                $cell = $popover.data('orig');
+                console.log($cell);
+                alseis.current_game.Note(
+                  $cell.data('player'),
+                  $cell.data('scoresheet'),
+                  $cell.data('play'),
+                  $cell.data('value'),
+                  false
+                );
+                $popover.popover('hide');
+              });
+            }).on('hidden.bs.popover', function(e) {
+              $(this).popover('destroy');
+            }).data('orig', $(this)).popover('show');
           });
         }
+
+
 
 
         
