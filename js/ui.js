@@ -4,13 +4,14 @@
   alseis.add_scoresheet_column = function(game, scoresheet_no, $table) {
     $($table).find('thead .score_play_header').append('<th colspan="' + game.players.length + '">' + scoresheet_no + '</th>');
     $($table).find('thead .score_players_header').each(function() {
-      for (var i = 0; i < game.players.length; i++) 
+      for (var i = 0; i < game.players.length; i++)
       {
-        $(this).append('<th>' + game.players[i].name + '</th>');
+        $(this).append('<th><h3><span class="label label-primary">' + game.players[i].name + '</span></h3><br/><span id="_max_' + i + '_' + scoresheet_no + '" class="label label-success"></span></th>');
       }
     });
     $($table).find('tbody .headers_col').each(function(idx, elem) {
-      for (var i = 0; i < game.players.length; i++) 
+      var $where = $(elem).siblings().length > 0 ? $(elem).siblings(':last') : $(elem);
+      for (var i = 0; i < game.players.length; i++)
       {
         var play = alseis.Scoresheet.GetPlay(idx-1);
         var $inserted = $(
@@ -22,7 +23,9 @@
         $inserted.attr('data-player', i);
         $inserted.attr('data-scoresheet', scoresheet_no);
         $inserted.attr('data-play', alseis.Scoresheet.GetPlay(idx-1));
-        var $row = $(this).after($inserted);
+        $where.after($inserted);
+        $where = $inserted;
+
       }
     });
   };
@@ -41,6 +44,6 @@
   }
 
   alseis.dice_image_tag = function(img_size, v) {
-    return '<img width="' + img_size + '" src="' + alseis.dice_image(v) + '"/>'; } 
+    return '<img width="' + img_size + '" src="' + alseis.dice_image(v) + '"/>'; }
 
 }( window.alseis = window.alseis || {}, jQuery ));

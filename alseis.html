@@ -9,17 +9,17 @@
     <!-- al seis -->
     <link href="css/alseis.css" rel="stylesheet">
   </head>
-  <body>
+  <body style="padding-right: 80px">
 
     <h1>Al seis</h1>
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        Vamos al cine
+        <h2>Me verás caer...</h2>
       </div>
       <div class="panel-body">
         <p>
-        Acá ponemos algunos botones?
+          <button class="btn btn-primary">Comenzar juego</button>
         </p>
       </div>
 
@@ -37,7 +37,7 @@
         </thead>
         <tbody>
           <tr class="total_row warning">
-            <td class="headers_col">Total</td>
+            <td class="headers_col"><h2>Total</h2></td>
           </tr>
           <tr class="score_row digits" data-play="_4">
             <td class="headers_col"><img width="32" src="img/dice-04.png">&nbsp;</td>
@@ -113,15 +113,20 @@
 
         $(alseis.current_game).on('score_changed', function(e, scoresheet, player, game) {
           // update UI with scores
-
+          game.UpdateWinnerStatus();
         });
 
-        alseis.current_game.players[0].name = 'V';
-        alseis.current_game.players[1].name = 'C';
-        alseis.current_game.players[2].name = 'P';
+        alseis.current_game.players[0].name = 'Victor';
+        alseis.current_game.players[1].name = 'Carlino';
+        alseis.current_game.players[2].name = 'Pablo';
 
         for (var i = 0; i < alseis.current_game.config.nplayers; i++) {
           alseis.add_scoresheet_column(alseis.current_game, i, $('#scoresheets_table'));
+        }
+
+        for (var i in alseis.current_game.players) 
+        {
+          alseis.current_game.players[i].UpdateTotals();
         }
 
         function numbers_options(n)
@@ -228,11 +233,6 @@
             }).data('orig', $(this)).popover('show');
           });
         }
-
-
-
-
-        
       });
     </script>
   </body>

@@ -43,7 +43,7 @@
     this.player = player;
   };
 
-  // public methods 
+  // public methods
 
   // static
   alseis.Scoresheet.GetColor = function (play, value, bonus) {
@@ -56,14 +56,14 @@
         return 'success';
       else if (vv >= 2)
         return 'warning';
-      else 
+      else
         return 'danger';
     } else {
       if (value == 0)
         return 'danger';
-      else if (value == 1 && bonus) 
+      else if (value == 1 && bonus)
         return 'success';
-      else 
+      else
         return 'warning';
     }
 
@@ -94,13 +94,14 @@
   alseis.Scoresheet.prototype.UpdateTotal = function()
   {
     var _html = 
-      '<h2><span class="label label-primary">' + 
+      '<h2><span class="label label-info">' + 
       this.CurrentScore() + 
       '</span></h2>';
     var _total = "#_" + this.player.no + "_" + this.no;
     $(_total).html(_html);
-  }
 
+    $('#_max_' + this.player.no + '_' + this.no).text(this.MaxScore());
+  }
 
   /* takes note of a play */
   alseis.Scoresheet.prototype.Note = function(play, val, bonus) {
@@ -145,7 +146,7 @@
     var _max_score = 0;
     for (var p in this.notes) {
       if (this.notes.hasOwnProperty(p)) {
-        _max_score += this.notes[p] ? this.notes[p] : max_notes_score[p];
+        _max_score += this.notes[p] ? this.notes[p] : max_scores[p];
       }
     }
     return _max_score;

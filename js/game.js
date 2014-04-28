@@ -19,15 +19,20 @@
       this.scoresheets.push(scoresheet);
     }
   };
-  
   alseis.Player.prototype.Note = function(sheet, play, val, bonus) {
     this.scoresheets[sheet].Note(play, val, bonus);
   };
+  alseis.Player.prototype.UpdateTotals = function() {
+    console.log('primavera cero: ' + this.sheets);
+    for (var i = 0; i < this.sheets; i++) {
+      this.scoresheets[i].UpdateTotal();
+    }
+
+  }
 
   alseis.Player.prototype.SetName = function(name) {
     this.name = name;
   };
-  
   // game class
 
   alseis.Game = function(config)
@@ -48,5 +53,9 @@
   {
     this.players[player].Note(sheet, play, val, bonus);
   };
+
+  alseis.Game.prototype.UpdateWinnerStatus = function()
+  {
+  }
 
 }( window.alseis = window.alseis || {}, jQuery ));

@@ -1,3 +1,7 @@
+#scoresheets_table {
+  table-layout: fixed;
+}
+
 #scoresheets_table .score_row {
   height: 60px;
 }
@@ -7,7 +11,7 @@
 }
 
 #scoresheets_table .total_row {
-  height: 60px;
+  height: 100px;
 }
 
 #scoresheets_table .headers_col {
@@ -39,4 +43,11 @@
   text-align: center;
 }
 
+.partial_winner
+{
+  background-color: green;
+}
 
+.winner 
+{
+}
