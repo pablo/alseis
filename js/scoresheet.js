@@ -26,7 +26,7 @@
     else if (play == '_6')
       return 6*val;
     else
-      return actual_scores[play];
+      return val*actual_scores[play];
   };
 
   alseis.Scoresheet = function(no, player) {

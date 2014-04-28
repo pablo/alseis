@@ -142,6 +142,68 @@
           return ret;
         }
 
+        var play_title =
+        {
+            _straight: 'Escalera',
+            _fullhouse: 'Full House',
+            _four_of_a_kind: 'Póquer',
+            _yahtzee: 'G-TALI'
+        };
+
+        function figure_options(play) {
+          var ret = '<div class="btn-group">';
+
+          // huevo
+          ret += '<button type="button" class="btn btnsetplay btn-danger" data-value="0" data-bonus="false">';
+          ret += '<span class="glyphicon glyphicon-remove-sign"></span>';
+          ret += '</button>';
+
+          // normal
+          ret += '<button type="button" class="btn btnsetplay btn-warning" data-value="1" data-bonus="false">';
+          ret += '<span class="glyphicon glyphicon-ok-sign"></span>';
+          ret += '</button>';
+
+          // servido
+          ret += '<button type="button" class="btn btnsetplay btn-success" data-value="1" data-bonus="true">';
+          ret += '<span class="glyphicon glyphicon-plus-sign"></span>';
+          ret += '</button>';
+
+          ret += '</div>';
+          return ret;
+        }
+
+        $.each(['_straight', '_fullhouse', '_four_of_a_kind', '_yahtzee'],
+          function( idx, val ) {
+            $('._notecell' + val).click(function(e) {
+              var $lep = $(this).popover({
+                title: play_title[val],
+                html: true,
+                content: figure_options(val),
+                placement: 'bottom',
+                container: 'body',
+                trigger: 'click' 
+              }).on('shown.bs.popover', function(e) {
+                $popover = $(this);
+                $('.btnsetplay').on('click', function(e) {
+                  $cell = $popover.data('orig');
+                  console.log($(this));
+                  alseis.current_game.Note(
+                    $cell.data('player'),
+                    $cell.data('scoresheet'),
+                    $cell.data('play'),
+                    $(this).data('value'),
+                    $(this).data('bonus')
+                  );
+                  $popover.popover('hide');
+                });
+
+              }).on('hidden.bs.popover', function(e) {
+                $(this).popover('destroy');
+              }).data('orig', $(this)).popover('show');
+            });
+          }
+        );
+
         for (var i = 4; i <= 6; i++) {
           $('._notecell_' + i).click(function(e) {
             var $lep = $(this).popover({
