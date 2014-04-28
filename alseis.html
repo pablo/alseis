@@ -111,9 +111,12 @@
           nsheets: 3
         });
 
-        $(alseis.current_game).on('score_changed', function() {
+        $(alseis.current_game).on('score_changed', function(e, scoresheet, player, game) {
           // update UI with scores
           console.log('update!');
+          console.log(scoresheet);
+          console.log(player);
+          console.log(game);
 
         });
 
@@ -132,7 +135,7 @@
           {
             ret += '<button type="button" class="btn btn-' + 
                     alseis.color_signals[i] + 
-                    ' btnsetplay" data-value="' + (i*n) + 
+                    ' btnsetplay" data-value="' + i + 
                     '">' + i*n + '</button>';
           }
           ret += '</div>';
@@ -152,12 +155,12 @@
               $popover = $(this);
               $('.btnsetplay').on('click', function(e) {
                 $cell = $popover.data('orig');
-                console.log($cell);
+                console.log($(this));
                 alseis.current_game.Note(
                   $cell.data('player'),
                   $cell.data('scoresheet'),
                   $cell.data('play'),
-                  $cell.data('value'),
+                  $(this).data('value'),
                   false
                 );
                 $popover.popover('hide');

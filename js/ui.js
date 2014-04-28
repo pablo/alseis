@@ -12,14 +12,16 @@
     $($table).find('tbody .headers_col').each(function(idx, elem) {
       for (var i = 0; i < game.players.length; i++) 
       {
+        var play = alseis.Scoresheet.GetPlay(idx-1);
         var $inserted = $(
-          '<td class="notecell ' + 
-          alseis.Scoresheet.GetPlay(idx-1) + 
+          '<td id="_' + i + '_' + scoresheet_no + play + '" ' +
+          'class="notecell _notecell' + play +
           '"></td>'
         );
         $inserted.attr('data-value', idx + 3);
         $inserted.attr('data-player', i);
         $inserted.attr('data-scoresheet', scoresheet_no);
+        $inserted.attr('data-play', alseis.Scoresheet.GetPlay(idx-1));
         var $row = $(this).after($inserted);
       }
     });

@@ -4,16 +4,17 @@
 
   // player class
 
-  alseis.Player = function(sheets) {
+  alseis.Player = function(no, sheets) {
+    this.no = no;
     this.sheets = sheets;
     this.name = null;
     // setup N (sheets) scoresheets
     this.scoresheets = [];
     var player = this;
     for (var i=0; i < sheets; i++) {
-      var scoresheet = new alseis.Scoresheet();
-      $(scoresheet).on('score_changed', function() {
-        $(player).trigger('score_changed');
+      var scoresheet = new alseis.Scoresheet(i, player);
+      $(scoresheet).on('score_changed', function(e, scoresheet) {
+        $(player).trigger('score_changed', [scoresheet, player]);
       });
       this.scoresheets.push(scoresheet);
     }
@@ -35,9 +36,9 @@
     this.players = [];
     var game = this;
     for (var i = 0; i < config.nplayers; i++) {
-      var player = new alseis.Player(config.nsheets);
-      $(player).on('score_changed', function() {
-        $(game).trigger('score_changed');
+      var player = new alseis.Player(i, config.nsheets);
+      $(player).on('score_changed', function(e, scoresheet, player) {
+        $(game).trigger('score_changed', [scoresheet, player, game]);
       });
       this.players.push(player);
     }

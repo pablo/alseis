@@ -29,7 +29,7 @@
       return actual_scores[play];
   };
 
-  alseis.Scoresheet = function() {
+  alseis.Scoresheet = function(no, player) {
     this.notes = {
       '_4': undefined,
       '_5': undefined,
@@ -39,6 +39,8 @@
       '_four_of_a_kind': undefined,
       '_yahtzee': undefined
     };
+    this.no = no;
+    this.player = player;
   };
 
   // public methods 
@@ -46,29 +48,41 @@
   alseis.Scoresheet.GetPlay = function (idx) {
     switch(idx) {
       case 0:
-        return '_notecell_4';
+        return '_4';
       case 1:
-        return '_notecell_5';
+        return '_5';
       case 2:
-        return '_notecell_6';
+        return '_6';
       case 3:
-        return '_notecell_straight';
+        return '_straight';
       case 4:
-        return '_notecell_fullhouse';
+        return '_fullhouse';
       case 5:
-        return '_notecell_four_of_a_kind';
+        return '_four_of_a_kind';
       case 6:
-        return '_notecell_yahtzee';
+        return '_yahtzee';
     }
     return '';
   };
+
+  alseis.Scoresheet.prototype.UpdateTotal = function()
+  {
+    var _total = "#_" + this.player.no + "_" + this.no;
+    $(_total).text(this.CurrentScore());
+  }
+
 
   /* takes note of a play */
   alseis.Scoresheet.prototype.Note = function(play, val, bonus) {
     // TODO: add check for notes already commited?
     this.notes[play] = 
       _single_score(play, val) + (bonus ? first_shot_bonus : 0);
-    $(this).trigger('score_changed');
+
+    // update ui
+    var _id = "#_" + this.player.no + "_" + this.no + play;
+    $(_id).text(this.notes[play]);
+    this.UpdateTotal();
+    $(this).trigger('score_changed', [this]);
   };
 
   // local function to get currents
