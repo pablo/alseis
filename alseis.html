@@ -99,8 +99,31 @@
           nsheets: 3
         });
 
-        $(alseis.current_game).on('score_changed', function(e, scoresheet, player, game) {
+	function UpdateTotal(scoresheet, player, game)
+	{
+	    var _html = 
+	      '<h2><span class="label label-info">' + 
+	      scoresheet.CurrentScore() + 
+	      '</span></h2>';
+	    var _total = "#_" + player.no + "_" + scoresheet.no;
+	    $(_total).html(_html);
+	    $('#_max_' + player.no + '_' + scoresheet.no).text(scoresheet.MaxScore());
+	}
+
+	function UpdateIndividualScores(scoresheet, player, game, play) {
+	    var _id = "#_" + player.no + "_" + scoresheet.no + play;
+	    var _html = 
+	      '<h4><span class="label label-' + 
+	      alseis.Scoresheet.GetColor(play) + 
+	      '">' + scoresheet.notes[play] + 
+	      '</span></h4>';
+	    $(_id).html(_html);
+	}
+
+        $(alseis.current_game).on('score_changed', function(e, scoresheet, player, game, play, val, bonus) {
           // update UI with scores
+	  UpdateTotal(scoresheet, player, game);
+	  UpdateIndividualScores(scoresheet, player, game, play);
           game.UpdateWinnerStatus();
         });
 

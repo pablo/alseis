@@ -87,6 +87,7 @@
     return '';
   };
 
+  /*
   alseis.Scoresheet.prototype.UpdateTotal = function()
   {
     var _html = 
@@ -98,6 +99,7 @@
 
     $('#_max_' + this.player.no + '_' + this.no).text(this.MaxScore());
   }
+    */
 
   /* takes note of a play */
   alseis.Scoresheet.prototype.Note = function(play, val, bonus) {
@@ -106,8 +108,8 @@
       _single_score(play, val) + (bonus ? first_shot_bonus : 0);
 
     // update ui
+    /*
     var _id = "#_" + this.player.no + "_" + this.no + play;
-
     var _html = 
       '<h4><span class="label label-' + 
       alseis.Scoresheet.GetColor(play, val, bonus) + 
@@ -116,7 +118,9 @@
 
     $(_id).html(_html);
     this.UpdateTotal();
-    $(this).trigger('score_changed', [this]);
+
+    */
+    $(this).trigger('score_changed', [this, play, val, bonus]);
   };
 
   // local function to get currents

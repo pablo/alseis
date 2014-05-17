@@ -13,8 +13,8 @@
     var player = this;
     for (var i=0; i < sheets; i++) {
       var scoresheet = new alseis.Scoresheet(i, player);
-      $(scoresheet).on('score_changed', function(e, scoresheet) {
-        $(player).trigger('score_changed', [scoresheet, player]);
+      $(scoresheet).on('score_changed', function(e, scoresheet, play, val, bonus) {
+        $(player).trigger('score_changed', [scoresheet, player, play, val, bonus]);
       });
       this.scoresheets.push(scoresheet);
     }
@@ -23,11 +23,11 @@
     this.scoresheets[sheet].Note(play, val, bonus);
   };
   alseis.Player.prototype.UpdateTotals = function() {
-    console.log('primavera cero: ' + this.sheets);
+/*    console.log('primavera cero: ' + this.sheets);
     for (var i = 0; i < this.sheets; i++) {
       this.scoresheets[i].UpdateTotal();
     }
-
+*/
   }
 
   alseis.Player.prototype.SetName = function(name) {
@@ -42,8 +42,8 @@
     var game = this;
     for (var i = 0; i < config.nplayers; i++) {
       var player = new alseis.Player(i, config.nsheets);
-      $(player).on('score_changed', function(e, scoresheet, player) {
-        $(game).trigger('score_changed', [scoresheet, player, game]);
+      $(player).on('score_changed', function(e, scoresheet, player, play, val, bonus) {
+        $(game).trigger('score_changed', [scoresheet, player, game, play, val, bonus]);
       });
       this.players.push(player);
     }

@@ -6,7 +6,12 @@
     $($table).find('thead .score_players_header').each(function() {
       for (var i = 0; i < game.players.length; i++)
       {
-        $(this).append('<th><h3><span class="label label-primary">' + game.players[i].name + '</span></h3><br/><span id="_max_' + i + '_' + scoresheet_no + '" class="label label-success"></span></th>');
+        $(this).append(
+		'<th><h3><span class="label label-primary">' + 
+		game.players[i].name + 
+		'</span></h3><br/><span id="_max_' + i + '_' + 
+		scoresheet_no + '" class="label label-success"></span></th>'
+	);
       }
     });
     $($table).find('tbody .headers_col').each(function(idx, elem) {
