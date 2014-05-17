@@ -57,7 +57,7 @@
     } else {
       if (value == 0)
         return 'danger';
-      else if (value == 1 && bonus)
+      else if (bonus)
         return 'success';
       else
         return 'warning';

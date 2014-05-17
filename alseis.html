@@ -110,12 +110,12 @@
 	    $('#_max_' + player.no + '_' + scoresheet.no).text(scoresheet.MaxScore());
 	}
 
-	function UpdateIndividualScores(scoresheet, player, game, play) {
+	function UpdateIndividualScores(scoresheet, player, game, play, val, bonus) {
 	    var _id = "#_" + player.no + "_" + scoresheet.no + play;
-	    var _html = 
-	      '<h4><span class="label label-' + 
-	      alseis.Scoresheet.GetColor(play) + 
-	      '">' + scoresheet.notes[play] + 
+	    var _html =
+	      '<h4><span class="label label-' +
+	      alseis.Scoresheet.GetColor(play, val, bonus) +
+	      '">' + scoresheet.notes[play] +
 	      '</span></h4>';
 	    $(_id).html(_html);
 	}
@@ -123,7 +123,7 @@
         $(alseis.current_game).on('score_changed', function(e, scoresheet, player, game, play, val, bonus) {
           // update UI with scores
 	  UpdateTotal(scoresheet, player, game);
-	  UpdateIndividualScores(scoresheet, player, game, play);
+	  UpdateIndividualScores(scoresheet, player, game, play, val, bonus);
           game.UpdateWinnerStatus();
         });
 
