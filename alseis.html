@@ -99,7 +99,7 @@
           nsheets: 3
         });
 
-	function UpdateTotal(scoresheet, player, game)
+	function UpdateTotal(scoresheet, player)
 	{
 	    var _html = 
 	      '<h2><span class="label label-info">' + 
@@ -110,79 +110,93 @@
 	    $('#_max_' + player.no + '_' + scoresheet.no).text(scoresheet.MaxScore());
 	}
 
-	function UpdateIndividualScores(scoresheet, player, game, play) {
+	function UpdateIndividualScores(scoresheet, player, game, play, val, bonus) {
 	    var _id = "#_" + player.no + "_" + scoresheet.no + play;
-	    var _html = 
-	      '<h4><span class="label label-' + 
-	      alseis.Scoresheet.GetColor(play) + 
-	      '">' + scoresheet.notes[play] + 
+	    var _html =
+	      '<h4><span class="label label-' +
+	      alseis.Scoresheet.GetColor(play, val, bonus) +
+	      '">' + scoresheet.notes[play] +
 	      '</span></h4>';
 	    $(_id).html(_html);
-	}
+  }
 
-        $(alseis.current_game).on('score_changed', function(e, scoresheet, player, game, play, val, bonus) {
-          // update UI with scores
-	  UpdateTotal(scoresheet, player, game);
-	  UpdateIndividualScores(scoresheet, player, game, play);
-          game.UpdateWinnerStatus();
-        });
+  function UpdateWinnerStatus()
+  {
+    for (var i in alseis.current_game.players)
+    {
+      // las cosas son simples
+    }
+  }
 
-        alseis.current_game.players[0].name = 'Victor';
-        alseis.current_game.players[1].name = 'Carlino';
-        alseis.current_game.players[2].name = 'Pablo';
+  $(alseis.current_game).on('score_changed', function(e, scoresheet, player, game, play, val, bonus) {
+    // update UI with scores
+    UpdateTotal(scoresheet, player, game);
+    UpdateIndividualScores(scoresheet, player, game, play, val, bonus);
+    UpdateWinnerStatus();
+  });
 
-        for (var i = 0; i < alseis.current_game.config.nplayers; i++) {
-          alseis.add_scoresheet_column(alseis.current_game, i, $('#scoresheets_table'));
-        }
+  alseis.current_game.players[0].name = 'Victor';
+  alseis.current_game.players[1].name = 'Carlino';
+  alseis.current_game.players[2].name = 'Pablo';
 
-        for (var i in alseis.current_game.players) 
-        {
-          alseis.current_game.players[i].UpdateTotals();
-        }
+  for (var i = 0; i < alseis.current_game.config.nplayers; i++) {
+    alseis.add_scoresheet_column(alseis.current_game, i, $('#scoresheets_table'));
+  }
 
-        function numbers_options(n)
-        {
-          var ret = '<div class="btn-group">';
-          for (var i=0; i<=5; i++)
-          {
-            ret += '<button type="button" class="btn btn-' + 
-                    alseis.color_signals[i] + 
-                    ' btnsetplay" data-value="' + i + 
-                    '">' + i*n + '</button>';
-          }
-          ret += '</div>';
-          return ret;
-        }
+  for (var i in alseis.current_game.players) 
+  {
+    //alseis.current_game.players[i].UpdateTotals();
+    var _player = alseis.current_game.players[i];
+    for (var j in _player.scoresheets) 
+    {
+      var _scoresheet = _player.scoresheets[j];
+      UpdateTotal(_scoresheet, _player);
+    }
+  }
 
-        var play_title =
-        {
-            _straight: 'Escalera',
-            _fullhouse: 'Full House',
-            _four_of_a_kind: 'Póquer',
-            _yahtzee: 'G-TALI'
-        };
+  function numbers_options(n)
+  {
+    var ret = '<div class="btn-group">';
+    for (var i=0; i<=5; i++)
+    {
+      ret += '<button type="button" class="btn btn-' + 
+              alseis.color_signals[i] + 
+              ' btnsetplay" data-value="' + i + 
+              '">' + i*n + '</button>';
+    }
+    ret += '</div>';
+    return ret;
+  }
 
-        function figure_options(play) {
-          var ret = '<div class="btn-group">';
+  var play_title =
+  {
+      _straight: 'Escalera',
+      _fullhouse: 'Full House',
+      _four_of_a_kind: 'Póquer',
+      _yahtzee: 'G-TALI'
+  };
 
-          // huevo
-          ret += '<button type="button" class="btn btnsetplay btn-danger" data-value="0" data-bonus="false">';
-          ret += '<span class="glyphicon glyphicon-remove-sign"></span>';
-          ret += '</button>';
+  function figure_options(play) {
+    var ret = '<div class="btn-group">';
 
-          // normal
-          ret += '<button type="button" class="btn btnsetplay btn-warning" data-value="1" data-bonus="false">';
-          ret += '<span class="glyphicon glyphicon-ok-sign"></span>';
-          ret += '</button>';
+    // huevo
+    ret += '<button type="button" class="btn btnsetplay btn-danger" data-value="0" data-bonus="false">';
+    ret += '<span class="glyphicon glyphicon-remove-sign"></span>';
+    ret += '</button>';
 
-          // servido
-          ret += '<button type="button" class="btn btnsetplay btn-success" data-value="1" data-bonus="true">';
-          ret += '<span class="glyphicon glyphicon-plus-sign"></span>';
-          ret += '</button>';
+    // normal
+    ret += '<button type="button" class="btn btnsetplay btn-warning" data-value="1" data-bonus="false">';
+    ret += '<span class="glyphicon glyphicon-ok-sign"></span>';
+    ret += '</button>';
 
-          ret += '</div>';
-          return ret;
-        }
+    // servido
+    ret += '<button type="button" class="btn btnsetplay btn-success" data-value="1" data-bonus="true">';
+    ret += '<span class="glyphicon glyphicon-plus-sign"></span>';
+    ret += '</button>';
+
+    ret += '</div>';
+    return ret;
+  }
 
         $.each(['_straight', '_fullhouse', '_four_of_a_kind', '_yahtzee'],
           function( idx, val ) {
