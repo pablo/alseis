@@ -8,8 +8,14 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- al seis -->
     <link href="css/alseis.css" rel="stylesheet">
+    <style type="text/css">
+    .popover
+    {
+       min-width: 300px ! important;
+    }
+    </style>
   </head>
-  <body style="padding-right: 80px">
+  <body style="padding-right: 100px">
 
       <!-- ONE COLUMN FOR EACH SHEET -->
       <div class="table-responsive">
@@ -112,11 +118,14 @@
 
 	function UpdateIndividualScores(scoresheet, player, game, play, val, bonus) {
 	    var _id = "#_" + player.no + "_" + scoresheet.no + play;
-	    var _html =
-	      '<h4><span class="label label-' +
-	      alseis.Scoresheet.GetColor(play, val, bonus) +
-	      '">' + scoresheet.notes[play] +
-	      '</span></h4>';
+	    var _html = '';
+	    if (scoresheet.notes[play] != undefined) {
+	      _html =
+		  '<h4><span class="label label-' +
+		  alseis.Scoresheet.GetColor(play, val, bonus) +
+		  '">' + scoresheet.notes[play] +
+		  '</span></h4>';
+	    } 
 	    $(_id).html(_html);
   }
 
@@ -164,6 +173,9 @@
               ' btnsetplay" data-value="' + i + 
               '">' + i*n + '</button>';
     }
+    ret += '<button type="button" class="btn btn-info btnsetplay" data-value="-1">' +
+           '<span class="glyphicon glyphicon-remove-sign"></span>' +
+           '</button>';
     ret += '</div>';
     return ret;
   }
@@ -181,7 +193,7 @@
 
     // huevo
     ret += '<button type="button" class="btn btnsetplay btn-danger" data-value="0" data-bonus="false">';
-    ret += '<span class="glyphicon glyphicon-remove-sign"></span>';
+    ret += '<span class="glyphicon glyphicon-record"></span>';
     ret += '</button>';
 
     // normal
@@ -193,6 +205,12 @@
     ret += '<button type="button" class="btn btnsetplay btn-success" data-value="1" data-bonus="true">';
     ret += '<span class="glyphicon glyphicon-plus-sign"></span>';
     ret += '</button>';
+
+    // borrar marca
+    ret += '<button type="button" class="btn btnsetplay btn-info" data-value="-1" data-bonus="true">';
+    ret += '<span class="glyphicon glyphicon-remove-sign"></span>';
+    ret += '</button>';
+
 
     ret += '</div>';
     return ret;
@@ -212,14 +230,18 @@
                 $popover = $(this);
                 $('.btnsetplay').on('click', function(e) {
                   $cell = $popover.data('orig');
-                  console.log($(this));
-                  alseis.current_game.Note(
-                    $cell.data('player'),
-                    $cell.data('scoresheet'),
-                    $cell.data('play'),
-                    $(this).data('value'),
-                    $(this).data('bonus')
+		  if ($(this).data('value') == '-1') {
+                    alseis.current_game.RemoveNote($cell.data('player'), $cell.data('scoresheet'), $cell.data('play'));
+		  } else {
+                    alseis.current_game.Note(
+                        $cell.data('player'),
+                        $cell.data('scoresheet'),
+                        $cell.data('play'),
+                        $(this).data('value'),
+                        $(this).data('bonus')
                   );
+		  }
+
                   $popover.popover('hide');
                 });
 
