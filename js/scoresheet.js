@@ -87,41 +87,20 @@
     return '';
   };
 
-  /*
-  alseis.Scoresheet.prototype.UpdateTotal = function()
-  {
-    var _html = 
-      '<h2><span class="label label-info">' + 
-      this.CurrentScore() + 
-      '</span></h2>';
-    var _total = "#_" + this.player.no + "_" + this.no;
-    $(_total).html(_html);
-
-    $('#_max_' + this.player.no + '_' + this.no).text(this.MaxScore());
-  }
-    */
-
   /* takes note of a play */
   alseis.Scoresheet.prototype.Note = function(play, val, bonus) {
     // TODO: add check for notes already commited?
     this.notes[play] = 
       _single_score(play, val) + (bonus ? first_shot_bonus : 0);
-
-    // update ui
-    /*
-    var _id = "#_" + this.player.no + "_" + this.no + play;
-    var _html = 
-      '<h4><span class="label label-' + 
-      alseis.Scoresheet.GetColor(play, val, bonus) + 
-      '">' + this.notes[play] + 
-      '</span></h4>';
-
-    $(_id).html(_html);
-    this.UpdateTotal();
-
-    */
     $(this).trigger('score_changed', [this, play, val, bonus]);
   };
+
+  /* remove note from play */
+  alseis.Scoresheet.prototype.RemoveNote = function(play)
+  {
+    this.notes[play] = undefined;
+    $(this).trigger('score_changed', [this, play]);
+  }
 
   // local function to get currents
   var _current_score = function(play) {

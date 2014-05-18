@@ -7,10 +7,10 @@
       for (var i = 0; i < game.players.length; i++)
       {
         $(this).append(
-		'<th><h3><span class="label label-primary">' + 
+		'<th><h3><span id="_name_' + i + '_' + scoresheet_no + '" class="label label-warning player_name">' + 
 		game.players[i].name + 
 		'</span></h3><br/><span id="_max_' + i + '_' + 
-		scoresheet_no + '" class="label label-success"></span></th>'
+		scoresheet_no + '" class="label label-success">&nbsp;</span></th>'
 	);
       }
     });

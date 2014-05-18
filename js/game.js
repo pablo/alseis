@@ -22,17 +22,14 @@
   alseis.Player.prototype.Note = function(sheet, play, val, bonus) {
     this.scoresheets[sheet].Note(play, val, bonus);
   };
-  alseis.Player.prototype.UpdateTotals = function() {
-/*    console.log('primavera cero: ' + this.sheets);
-    for (var i = 0; i < this.sheets; i++) {
-      this.scoresheets[i].UpdateTotal();
-    }
-*/
-  }
-
+  alseis.Player.prototype.RemoveNote = function(sheet, play) {
+    this.scoresheets[sheet].RemoveNote(play);
+  };
   alseis.Player.prototype.SetName = function(name) {
     this.name = name;
   };
+
+
   // game class
 
   alseis.Game = function(config)
@@ -54,8 +51,10 @@
     this.players[player].Note(sheet, play, val, bonus);
   };
 
-  alseis.Game.prototype.UpdateWinnerStatus = function()
+  alseis.Game.prototype.RemoveNote = function(player, sheet, play)
   {
+    this.players[player].RemoveNote(sheet, play);
   }
+
 
 }( window.alseis = window.alseis || {}, jQuery ));
