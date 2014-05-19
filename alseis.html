@@ -11,7 +11,7 @@
     <style type="text/css">
     .popover
     {
-       min-width: 300px ! important;
+       min-width: 350 ! important;
     }
     </style>
   </head>
@@ -131,6 +131,8 @@
 
   function UpdateWinnerStatus()
   {
+    var players_status = alseis.current_game.PlayersStatus();
+
     for (var i in alseis.current_game.players)
     {
       // las cosas son simples

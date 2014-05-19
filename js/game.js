@@ -54,7 +54,36 @@
   alseis.Game.prototype.RemoveNote = function(player, sheet, play)
   {
     this.players[player].RemoveNote(sheet, play);
-  }
+  };
 
+  alseis.Game.prototype.PlayersStatus = function() {
+    var stats = [];
+
+    for (var i = 0; i < config.nsheets; i++) {
+        var winning_score = 0;
+	var winners = [];
+	for (var j = 0; j < config.nplayers; j++) {
+	  var _player = this.players[j];
+	  var _scoresheet = this.players.scoresheets[i];
+	  var _currentScore = _scoresheet.CurrentScore();
+          if (_currentScore > winning_score) {
+            winners = [];
+	    winners.push(_player);
+	    winning_score = _current_score;
+	  } else if (_currentScore == winning_score) {
+            winners.push(_player);
+	  } else {
+            // do nothing
+	  }
+	}
+	stats.push({
+
+	   'winners': winners
+
+	});
+    }
+
+    return stats;
+  };
 
 }( window.alseis = window.alseis || {}, jQuery ));
