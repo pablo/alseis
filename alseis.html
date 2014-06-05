@@ -102,7 +102,7 @@
 
         alseis.current_game = new alseis.Game({
           nplayers: 3,
-          nsheets: 3
+          nsheets: 4
         });
 
 	function UpdateTotal(scoresheet, player)
@@ -150,7 +150,7 @@
   alseis.current_game.players[1].name = 'Carlino';
   alseis.current_game.players[2].name = 'Pablo';
 
-  for (var i = 0; i < alseis.current_game.config.nplayers; i++) {
+  for (var i = 0; i < alseis.current_game.config.nsheets; i++) {
     alseis.add_scoresheet_column(alseis.current_game, i, $('#scoresheets_table'));
   }
 
