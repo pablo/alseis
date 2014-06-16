@@ -34,6 +34,7 @@
 
   alseis.Game = function(config)
   {
+    this.selected_play = null;
     this.config = config;
     this.players = [];
     var game = this;
@@ -44,6 +45,37 @@
       });
       this.players.push(player);
     }
+  };
+
+  alseis.Game.prototype.UnselectPlay = function(elem) {
+    this.selected_play = null;
+  }
+
+  // side effect!
+  alseis.Game.prototype.SelectPlay = function(elem)
+  {
+    var $elem = $(elem);
+    var _selectedPlay = {};
+
+    console.log(elem);
+
+    _selectedPlay['player']     = this.players[$elem.data('player')];
+    _selectedPlay['scoresheet'] = _selectedPlay['player'].scoresheets[$elem.data('scoresheet')];
+    _selectedPlay['play']       = $elem.data('play');
+
+    console.log(_selectedPlay);
+
+    return this.selected_play = _selectedPlay;
+  }
+
+  alseis.Game.prototype.NoteSelected = function(val, bonus) {
+    this.selected_play.player.Note(
+       this.selected_play.scoresheet.no,
+       this.selected_play.play,
+       val,
+       bonus
+    );
+    this._selected_play = null;
   };
 
   alseis.Game.prototype.Note = function(player, sheet, play, val, bonus)
@@ -59,17 +91,18 @@
   alseis.Game.prototype.PlayersStatus = function() {
     var stats = [];
 
-    for (var i = 0; i < config.nsheets; i++) {
+    for (var i = 0; i < this.config.nsheets; i++) {
         var winning_score = 0;
 	var winners = [];
-	for (var j = 0; j < config.nplayers; j++) {
+	for (var j = 0; j < this.config.nplayers; j++) {
+
 	  var _player = this.players[j];
-	  var _scoresheet = this.players.scoresheets[i];
+	  var _scoresheet = this.players[j].scoresheets[i];
 	  var _currentScore = _scoresheet.CurrentScore();
           if (_currentScore > winning_score) {
             winners = [];
-	    winners.push(_player);
-	    winning_score = _current_score;
+	    winners.push({player: _player, scoresheet: 1});
+	    winning_score = _currentScore;
 	  } else if (_currentScore == winning_score) {
             winners.push(_player);
 	  } else {
@@ -78,7 +111,7 @@
 	}
 	stats.push({
 
-	   'winners': winners
+	   'partial_winners_': winners
 
 	});
     }

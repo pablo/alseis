@@ -13,17 +13,22 @@
     {
        min-width: 350 ! important;
     }
+    .btnsetplay
+    {
+	width: 125px;
+    }
+    .modal-title-play
+    {
+	display: none;
+    }
     </style>
   </head>
-  <body style="padding-right: 100px">
+  <body>
 
       <!-- ONE COLUMN FOR EACH SHEET -->
       <div class="table-responsive">
       <table id="scoresheets_table" class="table table-bordered">
         <thead>
-          <tr class="score_play_header success">
-            <th></th>
-          </tr>
           <tr class="score_players_header success">
             <th></th>
           </tr>
@@ -44,38 +49,38 @@
           </tr>
           <tr class="score_row plays" data-play="_straight">
             <td class="headers_col">
-              <img width="16" src="img/dice-06.png">
-              <img width="16" src="img/dice-05.png">
-              <img width="16" src="img/dice-04.png"><br>
-              <img width="16" src="img/dice-03.png">
-              <img width="16" src="img/dice-01.png">
+              <img width="20" src="img/dice-05.png">
+              <img width="20" src="img/dice-04.png">
+              <img width="20" src="img/dice-03.png"><br>
+              <img width="20" src="img/dice-02.png">
+              <img width="20" src="img/dice-01.png">
             </td>
           </tr>
           <tr class="score_row plays" data-play="_fullhouse">
             <td class="headers_col">
-              <img width="16" src="img/dice-06.png">
-              <img width="16" src="img/dice-06.png">
-              <img width="16" src="img/dice-06.png"><br>
-              <img width="16" src="img/dice-03.png">
-              <img width="16" src="img/dice-03.png">
+              <img width="20" src="img/dice-06.png">
+              <img width="20" src="img/dice-06.png">
+              <img width="20" src="img/dice-06.png"><br>
+              <img width="20" src="img/dice-03.png">
+              <img width="20" src="img/dice-03.png">
             </td>
           </tr>
           <tr class="score_row plays" data-play="_four_of_a_kind">
             <td class="headers_col">
-              <img width="16" src="img/dice-05.png">
-              <img width="16" src="img/dice-05.png">
-              <img width="16" src="img/dice-05.png"><br>
-              <img width="16" src="img/dice-05.png">
-              <img width="16" src="img/dice-02.png">
+              <img width="20" src="img/dice-05.png">
+              <img width="20" src="img/dice-05.png">
+              <img width="20" src="img/dice-05.png"><br>
+              <img width="20" src="img/dice-05.png">
+              <img width="20" src="img/dice-02.png">
             </td>
           </tr>
           <tr class="score_row plays" data-play="_yahtzee">
             <td class="headers_col">
-              <img width="16" src="img/dice-02.png">
-              <img width="16" src="img/dice-02.png">
-              <img width="16" src="img/dice-02.png"><br>
-              <img width="16" src="img/dice-02.png">
-              <img width="16" src="img/dice-02.png">
+              <img width="20" src="img/dice-02.png">
+              <img width="20" src="img/dice-02.png">
+              <img width="20" src="img/dice-02.png"><br>
+              <img width="20" src="img/dice-02.png">
+              <img width="20" src="img/dice-02.png">
             </td>
           </tr>
 
@@ -84,6 +89,73 @@
       </div>
     </div>
 
+    <div id="figures_points_options" class="modal fade">
+	<div class="modal-dialog ">
+	    <div class="modal-content">
+		<div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		    <h4 class="modal-title" id="figures_points_title">Marcar
+			<span class="modal-title-play modal-title-play_straight">escalera
+			  <img width="20" src="img/dice-05.png">
+			  <img width="20" src="img/dice-04.png">
+			  <img width="20" src="img/dice-03.png">
+			  <img width="20" src="img/dice-02.png">
+			  <img width="20" src="img/dice-01.png">
+			</span>
+			<span class="modal-title-play modal-title-play_fullhouse">full
+			  <img width="20" src="img/dice-06.png">
+			  <img width="20" src="img/dice-06.png">
+			  <img width="20" src="img/dice-06.png">
+			  <img width="20" src="img/dice-03.png">
+			  <img width="20" src="img/dice-03.png">
+			</span>
+			<span class="modal-title-play modal-title-play_four_of_a_kind">póquer
+			  <img width="20" src="img/dice-05.png">
+			  <img width="20" src="img/dice-05.png">
+			  <img width="20" src="img/dice-05.png">
+			  <img width="20" src="img/dice-05.png">
+			  <img width="20" src="img/dice-02.png">
+			</span>
+			<span class="modal-title-play modal-title-play_yahtzee">g-tali
+			  <img width="20" src="img/dice-02.png">
+			  <img width="20" src="img/dice-02.png">
+			  <img width="20" src="img/dice-02.png">
+			  <img width="20" src="img/dice-02.png">
+			  <img width="20" src="img/dice-02.png">
+			</span>
+		    </h4>
+		</div>
+		<div class="modal-body" style="text-align: center;">
+		    <h2>
+		    <span class="label label-lg label-info player-info-setplay">
+		    <strong class="player-info-setplay-name"></strong> <span class="badge badge-warning player-info-setplay-scoresheet"></span>
+		    </span>
+		    </h2>
+		    <br>
+
+		    <button type="button" class="btn btnsetplay btn-danger btn-lg " data-value="0" data-bonus="false" data-dismiss="modal">
+		    <span class="glyphicon glyphicon-record"></span><br>Huevo:(
+		    </button>
+
+		    <button type="button" class="btn btnsetplay btn-warning btn-lg " data-value="1" data-bonus="false" data-dismiss="modal">
+		    <span class="glyphicon glyphicon-ok-sign"></span><br>Xico
+		    </button>
+
+		    <button type="button" class="btn btnsetplay btn-success btn-lg " data-value="1" data-bonus="true" data-dismiss="modal">
+		    <span class="glyphicon glyphicon-plus-sign"></span><br>Servido
+		    </button>
+
+		    <div></div>
+
+		</div>
+		<div class="modal-footer">
+		    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+		    <button type="button" class="btn btn-info" data-value="-1">Borrar Marca</button>
+		</div>
+	    </div>
+
+	</div>
+    </div>
 
     <!-- JQUERY -->
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
@@ -102,7 +174,7 @@
 
         alseis.current_game = new alseis.Game({
           nplayers: 3,
-          nsheets: 3
+          nsheets: 4
         });
 
 	function UpdateTotal(scoresheet, player)
@@ -133,7 +205,7 @@
   {
     var players_status = alseis.current_game.PlayersStatus();
 
-    for (var i in alseis.current_game.players)
+    for (var i in alseis.current_game.config_nsheets)
     {
       // las cosas son simples
     }
@@ -150,7 +222,7 @@
   alseis.current_game.players[1].name = 'Carlino';
   alseis.current_game.players[2].name = 'Pablo';
 
-  for (var i = 0; i < alseis.current_game.config.nplayers; i++) {
+  for (var i = 0; i < alseis.current_game.config.nsheets; i++) {
     alseis.add_scoresheet_column(alseis.current_game, i, $('#scoresheets_table'));
   }
 
@@ -190,69 +262,50 @@
       _yahtzee: 'G-TALI'
   };
 
-  function figure_options(play) {
-    var ret = '<div class="btn-group">';
+    $.each(['_straight', '_fullhouse', '_four_of_a_kind', '_yahtzee'],
+      function( idx, val ) {
+	$('._notecell' + val).click(function(e) {
+	    $('.modal-title-play').hide();
+	    $('.modal-title-play' + $(e.target).data('play')).show();
+	    var _sel = alseis.current_game.SelectPlay(e.target);
+	    $('.player-info-setplay-name').text(_sel.player.name);
+	    $('.player-info-setplay-scoresheet').text(1 + _sel.scoresheet.no);
+	    $("#figures_points_options").modal();
+	});
+	  /* 
+	$('._notecell' + val).click(function(e) {
+	  var $lep = $(this).popover({
+	    title: play_title[val],
+	    html: true,
+	    content: figure_options(val),
+	    placement: 'bottom',
+	    container: 'body',
+	    trigger: 'click' 
+	  }).on('shown.bs.popover', function(e) {
+	    $popover = $(this);
+	    $('.btnsetplay').on('click', function(e) {
+	      $cell = $popover.data('orig');
+	      if ($(this).data('value') == '-1') {
+		alseis.current_game.RemoveNote($cell.data('player'), $cell.data('scoresheet'), $cell.data('play'));
+	      } else {
+		alseis.current_game.Note(
+		    $cell.data('player'),
+		    $cell.data('scoresheet'),
+		    $cell.data('play'),
+		    $(this).data('value'),
+		    $(this).data('bonus')
+	      );
+	      }
 
-    // huevo
-    ret += '<button type="button" class="btn btnsetplay btn-danger" data-value="0" data-bonus="false">';
-    ret += '<span class="glyphicon glyphicon-record"></span>';
-    ret += '</button>';
+	      $popover.popover('hide');
+	    });
 
-    // normal
-    ret += '<button type="button" class="btn btnsetplay btn-warning" data-value="1" data-bonus="false">';
-    ret += '<span class="glyphicon glyphicon-ok-sign"></span>';
-    ret += '</button>';
-
-    // servido
-    ret += '<button type="button" class="btn btnsetplay btn-success" data-value="1" data-bonus="true">';
-    ret += '<span class="glyphicon glyphicon-plus-sign"></span>';
-    ret += '</button>';
-
-    // borrar marca
-    ret += '<button type="button" class="btn btnsetplay btn-info" data-value="-1" data-bonus="true">';
-    ret += '<span class="glyphicon glyphicon-remove-sign"></span>';
-    ret += '</button>';
-
-
-    ret += '</div>';
-    return ret;
-  }
-
-        $.each(['_straight', '_fullhouse', '_four_of_a_kind', '_yahtzee'],
-          function( idx, val ) {
-            $('._notecell' + val).click(function(e) {
-              var $lep = $(this).popover({
-                title: play_title[val],
-                html: true,
-                content: figure_options(val),
-                placement: 'bottom',
-                container: 'body',
-                trigger: 'click' 
-              }).on('shown.bs.popover', function(e) {
-                $popover = $(this);
-                $('.btnsetplay').on('click', function(e) {
-                  $cell = $popover.data('orig');
-		  if ($(this).data('value') == '-1') {
-                    alseis.current_game.RemoveNote($cell.data('player'), $cell.data('scoresheet'), $cell.data('play'));
-		  } else {
-                    alseis.current_game.Note(
-                        $cell.data('player'),
-                        $cell.data('scoresheet'),
-                        $cell.data('play'),
-                        $(this).data('value'),
-                        $(this).data('bonus')
-                  );
-		  }
-
-                  $popover.popover('hide');
-                });
-
-              }).on('hidden.bs.popover', function(e) {
-                $(this).popover('destroy');
-              }).data('orig', $(this)).popover('show');
-            });
-          }
-        );
+	  }).on('hidden.bs.popover', function(e) {
+	    $(this).popover('destroy');
+	  }).data('orig', $(this)).popover('show');
+	});*/
+      }
+    );
 
         for (var i = 4; i <= 6; i++) {
           $('._notecell_' + i).click(function(e) {
@@ -267,7 +320,6 @@
               $popover = $(this);
               $('.btnsetplay').on('click', function(e) {
                 $cell = $popover.data('orig');
-                console.log($(this));
                 alseis.current_game.Note(
                   $cell.data('player'),
                   $cell.data('scoresheet'),
@@ -282,6 +334,16 @@
             }).data('orig', $(this)).popover('show');
           });
         }
+      });
+
+      $(document).ready(function() {
+	$('.btnsetplay').click(function(e) {
+	    // set current play!
+	    alseis.current_game.NoteSelected(
+		$(this).data('value'),
+		$(this).data('bonus')
+	    );
+	});
       });
     </script>
   </body>

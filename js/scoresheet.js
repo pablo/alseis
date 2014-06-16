@@ -90,8 +90,7 @@
   /* takes note of a play */
   alseis.Scoresheet.prototype.Note = function(play, val, bonus) {
     // TODO: add check for notes already commited?
-    this.notes[play] = 
-      _single_score(play, val) + (bonus ? first_shot_bonus : 0);
+    this.notes[play] = val != -1 ? _single_score(play, val) + (bonus ? first_shot_bonus : 0) : undefined;
     $(this).trigger('score_changed', [this, play, val, bonus]);
   };
 
