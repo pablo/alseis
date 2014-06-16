@@ -74,6 +74,14 @@
     this._selected_play = null;
   };
 
+  alseis.Game.prototype.RemoveNoteSelected = function() {
+    this.selected_play.player.RemoveNote(
+      this.selected_play.scoresheet.no,
+      this.selected_play.play
+    );
+    this._selected_play = null;
+  }
+
   alseis.Game.prototype.Note = function(player, sheet, play, val, bonus)
   {
     this.players[player].Note(sheet, play, val, bonus);

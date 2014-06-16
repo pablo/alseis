@@ -7,11 +7,11 @@
       for (var i = 0; i < game.players.length; i++)
       {
         $(this).append(
-		'<th><h3><span id="_name_' + i + '_' + scoresheet_no + '" class="label label-warning player_name">' + 
-		game.players[i].name + 
-		'</span></h3><br/><span id="_max_' + i + '_' + 
-		scoresheet_no + '" class="label label-success">&nbsp;</span></th>'
-	);
+          '<th><h3><span id="_name_' + i + '_' + scoresheet_no + '" class="label label-warning player_name">' + 
+          game.players[i].name + 
+          '</span></h3><br/><span id="_max_' + i + '_' + 
+          scoresheet_no + '" class="label label-success">&nbsp;</span></th>'
+        );
       }
     });
     $($table).find('tbody .headers_col').each(function(idx, elem) {
