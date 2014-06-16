@@ -57,13 +57,9 @@
     var $elem = $(elem);
     var _selectedPlay = {};
 
-    console.log(elem);
-
     _selectedPlay['player']     = this.players[$elem.data('player')];
     _selectedPlay['scoresheet'] = _selectedPlay['player'].scoresheets[$elem.data('scoresheet')];
     _selectedPlay['play']       = $elem.data('play');
-
-    console.log(_selectedPlay);
 
     return this.selected_play = _selectedPlay;
   }
@@ -82,9 +78,7 @@
   {
     this.players[player].Note(sheet, play, val, bonus);
   };
-
-  alseis.Game.prototype.RemoveNote = function(player, sheet, play)
-  {
+alseis.Game.prototype.RemoveNote = function(player, sheet, play) {
     this.players[player].RemoveNote(sheet, play);
   };
 

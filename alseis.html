@@ -264,14 +264,15 @@
 
     $.each(['_straight', '_fullhouse', '_four_of_a_kind', '_yahtzee'],
       function( idx, val ) {
-	$('._notecell' + val).click(function(e) {
-	    $('.modal-title-play').hide();
-	    $('.modal-title-play' + $(e.target).data('play')).show();
-	    var _sel = alseis.current_game.SelectPlay(e.target);
-	    $('.player-info-setplay-name').text(_sel.player.name);
-	    $('.player-info-setplay-scoresheet').text(1 + _sel.scoresheet.no);
-	    $("#figures_points_options").modal();
-	});
+  $('._notecell' + val).click(function(e) {
+      $('.modal-title-play').hide();
+      $('.modal-title-play' + $(e.currentTarget).data('play')).show();
+      var _sel = alseis.current_game.SelectPlay(e.currentTarget);
+      $('.player-info-setplay-name').text(_sel.player.name);
+      $('.player-info-setplay-scoresheet').text(1 + _sel.scoresheet.no);
+      $("#figures_points_options").modal();
+
+  });
 	  /* 
 	$('._notecell' + val).click(function(e) {
 	  var $lep = $(this).popover({
@@ -337,13 +338,13 @@
       });
 
       $(document).ready(function() {
-	$('.btnsetplay').click(function(e) {
-	    // set current play!
-	    alseis.current_game.NoteSelected(
-		$(this).data('value'),
-		$(this).data('bonus')
-	    );
-	});
+          $('.btnsetplay').click(function(e) {
+            // set current play!
+            alseis.current_game.NoteSelected(
+              $(e.currentTarget).data('value'),
+              $(e.currentTarget).data('bonus')
+            );
+        });
       });
     </script>
   </body>
