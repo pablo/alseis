@@ -13,7 +13,11 @@
 {
   min-width: 350 ! important;
 }
-.btnsetplay
+.btnnumber
+{
+  width: 80px;
+}
+.btnfigure
 {
   width: 125px;
 }
@@ -132,15 +136,15 @@
       </h2>
       <br>
 
-      <button type="button" class="btn btnsetplay btn-danger btn-lg " data-value="0" data-bonus="false" data-dismiss="modal">
+      <button type="button" class="btn btnsetplay btnfigure btn-danger btn-lg " data-value="0" data-bonus="false" data-dismiss="modal">
         <span class="glyphicon glyphicon-record"></span><br>Huevo:(
       </button>
 
-      <button type="button" class="btn btnsetplay btn-warning btn-lg " data-value="1" data-bonus="false" data-dismiss="modal">
+      <button type="button" class="btn btnsetplay btnfigure btn-warning btn-lg " data-value="1" data-bonus="false" data-dismiss="modal">
         <span class="glyphicon glyphicon-ok-sign"></span><br>Xico
       </button>
 
-      <button type="button" class="btn btnsetplay btn-success btn-lg " data-value="1" data-bonus="true" data-dismiss="modal">
+      <button type="button" class="btn btnsetplay btnfigure btn-success btn-lg " data-value="1" data-bonus="true" data-dismiss="modal">
         <span class="glyphicon glyphicon-plus-sign"></span><br>Servido
       </button>
 
@@ -178,29 +182,29 @@
       </h2>
       <br id="number_options">
 
-      <button type="button" class="btn btnsetplay btnsetplay_0 btn-danger btn-lg " data-value="0" data-bonus="false" data-dismiss="modal">
-        <span class="glyphicon glyphicon-record"></span><br>0
+      <button type="button" class="btn btnsetplay btnnumber btnsetplay_0 btn-danger btn-lg " data-value="0" data-bonus="false" data-dismiss="modal">
+        <span class="glyphicon glyphicon-record"></span><br><span id="btn_0">0</span>
       </button>
-      <button type="button" class="btn btnsetplay btnsetplay_1 btn-danger btn-lg " data-value="1" data-bonus="false" data-dismiss="modal">
-        <span class="glyphicon glyphicon-record"></span><br>6
+      <button type="button" class="btn btnsetplay btnnumber btnsetplay_1 btn-danger btn-lg " data-value="1" data-bonus="false" data-dismiss="modal">
+        <span class="glyphicon glyphicon-record"></span><br><span id="btn_1">0</span>
       </button>
-      <button type="button" class="btn btnsetplay btnsetplay_2 btn-danger btn-lg " data-value="2" data-bonus="false" data-dismiss="modal">
-        <span class="glyphicon glyphicon-record"></span><br>12
+      <button type="button" class="btn btnsetplay btnnumber btnsetplay_2 btn-warning btn-lg " data-value="2" data-bonus="false" data-dismiss="modal">
+        <span class="glyphicon glyphicon-ok-sign"></span><br><span id="btn_2">0</span>
       </button>
-      <button type="button" class="btn btnsetplay btnsetplay_3 btn-danger btn-lg " data-value="3" data-bonus="false" data-dismiss="modal">
-        <span class="glyphicon glyphicon-record"></span><br>18
+      <button type="button" class="btn btnsetplay btnnumber btnsetplay_3 btn-warning btn-lg " data-value="3" data-bonus="false" data-dismiss="modal">
+        <span class="glyphicon glyphicon-ok-sign"></span><br><span id="btn_3">0</span>
       </button>
-      <button type="button" class="btn btnsetplay btnsetplay_4 btn-danger btn-lg " data-value="4" data-bonus="false" data-dismiss="modal">
-        <span class="glyphicon glyphicon-record"></span><br>24
+      <button type="button" class="btn btnsetplay btnnumber btnsetplay_4 btn-success btn-lg " data-value="4" data-bonus="false" data-dismiss="modal">
+        <span class="glyphicon glyphicon-plus"></span><br><span id="btn_4">0</span>
       </button>
-      <button type="button" class="btn btnsetplay btnsetplay_5 btn-danger btn-lg " data-value="5" data-bonus="false" data-dismiss="modal">
-        <span class="glyphicon glyphicon-record"></span><br>30
+      <button type="button" class="btn btnsetplay btnnumber btnsetplay_5 btn-primary btn-lg " data-value="5" data-bonus="false" data-dismiss="modal">
+        <span class="glyphicon glyphicon-star"></span><br><span id="btn_5">0</span>
       </button>
 
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-      <button type="button" class="btn btn-info" data-value="-1">Borrar Marca</button>
+      <button type="button" class="btn btn-info btnsetplay" data-value="-1" data-dismiss="modal">Borrar Marca</button>
     </div>
   </div>
 </div>
@@ -286,23 +290,6 @@ for (var i in alseis.current_game.players)
   }
 }
 
-function numbers_options(n)
-{
-  var ret = '<div class="btn-group">';
-  for (var i=0; i<=5; i++)
-  {
-    ret += '<button type="button" class="btn btn-' + 
-      alseis.color_signals[i] + 
-      ' btnsetplay" data-value="' + i + 
-      '">' + i*n + '</button>';
-  }
-  ret += '<button type="button" class="btn btn-info btnsetplay" data-value="-1">' +
-    '<span class="glyphicon glyphicon-remove-sign"></span>' +
-    '</button>';
-  ret += '</div>';
-  return ret;
-}
-
 var play_title =
 {
   _straight: 'Escalera',
@@ -314,9 +301,12 @@ var play_title =
 $('.notecell').click(function(e) {
   var $modal;
   var _play = $(e.currentTarget).data('play');
-
   if  (_play == '_4' || _play == '_5' || _play == '_6') {
     $modal = $("#numbers_points_options");
+    var n = parseInt(_play.substring(1));
+    for (var i = 0; i < 6; i++) {
+      $('#btn_' + i).text(i*n);
+    }
   } else {
     $modal = $("#figures_points_options");
   }
