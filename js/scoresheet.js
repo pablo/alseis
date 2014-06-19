@@ -37,6 +37,7 @@
     };
     this.no = no;
     this.player = player;
+    this.nnotes = 0;
   };
 
   // public methods
@@ -90,6 +91,7 @@
   /* takes note of a play */
   alseis.Scoresheet.prototype.Note = function(play, val, bonus) {
     // TODO: add check for notes already commited?
+    if (!this.notes[play]) this.nnotes++;
     this.notes[play] = val != -1 ? _single_score(play, val) + (bonus ? first_shot_bonus : 0) : undefined;
     $(this).trigger('score_changed', [this, play, val, bonus]);
   };
@@ -97,6 +99,7 @@
   /* remove note from play */
   alseis.Scoresheet.prototype.RemoveNote = function(play)
   {
+    if (this.notes[play]) this.nnotes--;
     this.notes[play] = undefined;
     $(this).trigger('score_changed', [this, play]);
   }

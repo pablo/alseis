@@ -28,6 +28,9 @@
   alseis.Player.prototype.SetName = function(name) {
     this.name = name;
   };
+  alseis.Player.prototype.GetNNotes = function(sheet) {
+    return this.scoresheets[sheet].nnotes;
+  };
 
 
   // game class
@@ -47,9 +50,13 @@
     }
   };
 
+  alseis.Player.prototype.GetNNotes = function(player, sheet) {
+    return this.players[player].GetNNotes(sheet);
+  };
+
   alseis.Game.prototype.UnselectPlay = function(elem) {
     this.selected_play = null;
-  }
+  };
 
   // side effect!
   alseis.Game.prototype.SelectPlay = function(elem)

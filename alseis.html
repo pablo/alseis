@@ -239,6 +239,7 @@
     var _total = "#_" + player.no + "_" + scoresheet.no;
     $(_total).html(_html);
     $('#_max_' + player.no + '_' + scoresheet.no).text(scoresheet.MaxScore());
+    $('#_nplays_' + player.no + '_' + scoresheet.no).text("" + scoresheet.nnotes + "/7");
     }
 
     function UpdateIndividualScores(scoresheet, player, game, play, val, bonus) {
@@ -322,13 +323,14 @@ $('.notecell').click(function(e) {
 
 $(document).ready(function() {
     $('.btnsetplay').click(function(e) {
+      $t = $(e.currentTarget);
       // set current play!
-      if ($(e.currentTarget).data('value') == '-1') {
+      if ($t.data('value') == '-1') {
         alseis.current_game.RemoveNoteSelected();
       } else {
         alseis.current_game.NoteSelected(
-          $(e.currentTarget).data('value'),
-          $(e.currentTarget).data('bonus')
+          $t.data('value'),
+          $t.data('bonus')
         );
       }
 
