@@ -7,10 +7,15 @@
       for (var i = 0; i < game.players.length; i++)
       {
         $(this).append(
-          '<th><h3><span id="_name_' + i + '_' + scoresheet_no + '" class="label label-warning player_name">' + 
+          '<th class="b_top b_bottom ' + 
+	  (i == (game.players.length - 1) ? 'b_right ' : '' ) +
+	  '"><h3><span id="_name_' + i + '_' + scoresheet_no + '" class="label label-warning player_name">' + 
           game.players[i].name + 
-          '</span></h3><br/><span id="_max_' + i + '_' + 
-          scoresheet_no + '" class="label label-success">&nbsp;</span></th>'
+          '</span></h3><br/>' + 
+	  '<span id="_max_' + i + '_' +  scoresheet_no + '" class="label label-success">&nbsp;</span> ' + 
+	  '<span id="_nplays_' + i + '_' +  scoresheet_no + '" class="label label-info">0/7</span>' + 
+	  
+	  '</th>'
         );
       }
     });
@@ -21,7 +26,13 @@
         var play = alseis.Scoresheet.GetPlay(idx-1);
         var $inserted = $(
           '<td id="_' + i + '_' + scoresheet_no + play + '" ' +
-          'class="notecell _notecell' + play +
+          'class="notecell ' +
+	  '_notecell' + play + ' ' +
+	  (scoresheet_no%2==0?'even':'odd') + ' ' +
+	  (i == (game.players.length - 1) ? 'b_right ' : '' ) +
+	  (idx == 1 ? 'b_top ' : '' ) +
+	  (idx == 3 ? 'b_bottom ' : '' ) +
+	  (idx == 6 ? 'b_bottom ' : '' ) +
           '"></td>'
         );
         $inserted.attr('data-value', idx + 3);
