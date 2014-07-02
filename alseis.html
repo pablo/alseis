@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+
 <!-- Bootstrap -->
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <!-- al seis -->
@@ -31,10 +32,13 @@
 
 <!-- ONE COLUMN FOR EACH SHEET -->
 <div class="table-responsive">
+
   <table id="scoresheets_table" class="table table-bordered">
     <thead>
       <tr class="score_players_header success">
-        <th></th>
+        <th>
+          <div id="menu_button" class="label-warning">MENU</div>
+         </th>
       </tr>
 
     </thead>
@@ -90,6 +94,37 @@
 
     </tbody>
   </table>
+</div>
+
+<div id="menu_modal" class="modal fade">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header">
+        Ahora estamos así
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        Cantidad total de jugadas
+        <table class="table table-striped">
+      <thead id="player_plays_summary_header">
+        <tr>
+          <th>Jugador</th>
+          <th>Total Jugadas</th>
+        </tr>
+      </thead>
+      <tbody id="player_plays_summary">
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="figures_points_options" class="modal fade">
@@ -298,6 +333,22 @@ var play_title =
   _four_of_a_kind: 'Póquer',
   _yahtzee: 'G-TALI'
 };
+
+
+var add_player_plays = function(player)
+{
+  $('#player_plays_summary').append('<tr><td>' + player.name + '</td><td>' + player.GetNNotes() + '</td></tr>');
+}
+
+$('#menu_button').click(function(e) {
+  $('#player_plays_summary').empty();
+
+  for(var i = 0; i < alseis.current_game.players.length; i++)
+  {
+    add_player_plays(alseis.current_game.players[i]);
+  }
+  $('#menu_modal').modal();
+});
 
 $('.notecell').click(function(e) {
   var $modal;

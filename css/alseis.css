@@ -8,6 +8,8 @@
 
 #scoresheets_table thead th {
   text-align: center;
+  background-color: black;
+  border: 1px solid black;
 }
 
 #scoresheets_table .total_row {

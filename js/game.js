@@ -29,8 +29,18 @@
     this.name = name;
   };
   alseis.Player.prototype.GetNNotes = function(sheet) {
-    return this.scoresheets[sheet].nnotes;
+    var n;
+    if (sheet == null) {
+      for(var i = 0, n = 0; i < this.scoresheets.length; i++)
+      {
+        n += this.scoresheets[i].nnotes;
+      }
+    } else {
+      n = this.scoresheets[sheet].nnotes;
+    }
+    return n;
   };
+
 
 
   // game class
@@ -50,7 +60,7 @@
     }
   };
 
-  alseis.Player.prototype.GetNNotes = function(player, sheet) {
+  alseis.Game.prototype.GetNNotes = function(player, sheet) {
     return this.players[player].GetNNotes(sheet);
   };
 
