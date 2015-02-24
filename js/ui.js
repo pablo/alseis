@@ -25,14 +25,13 @@
       {
         var play = alseis.Scoresheet.GetPlay(idx-1);
         var $inserted = $(
-          '<td id="_' + i + '_' + scoresheet_no + play + '" ' +
-          'class="notecell ' +
-	  '_notecell' + play + ' ' +
-	  (scoresheet_no%2==0?'even':'odd') + ' ' +
-	  (i == (game.players.length - 1) ? 'b_right ' : '' ) +
-	  (idx == 1 ? 'b_top ' : '' ) +
-	  (idx == 3 ? 'b_bottom ' : '' ) +
-	  (idx == 6 ? 'b_bottom ' : '' ) +
+          '<td id="_' + i + '_' + scoresheet_no + play + '" ' + 'class="' + 
+            ( idx != 0 ? ('notecell ' + '_notecell' + play + ' ') : 'totalcell ') +
+            (scoresheet_no%2==0?'even':'odd') + ' ' +
+            (i == (game.players.length - 1) ? 'b_right ' : '' ) +
+            (idx == 1 ? 'b_top ' : '' ) +
+            (idx == 3 ? 'b_bottom ' : '' ) +
+            (idx == 6 ? 'b_bottom ' : '' ) +
           '"></td>'
         );
         $inserted.attr('data-value', idx + 3);

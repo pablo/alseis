@@ -45,6 +45,10 @@
   text-align: center;
 }
 
+.totalcell {
+  text-align: center;
+}
+
 .partial_winner
 {
   background-color: green;

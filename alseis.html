@@ -66,11 +66,11 @@
     </tr>
     <tr class="score_row plays" data-play="_fullhouse">
       <td class="headers_col">
-        <img width="20" src="img/dice-06.png">
-        <img width="20" src="img/dice-06.png">
-        <img width="20" src="img/dice-06.png"><br>
-        <img width="20" src="img/dice-03.png">
-        <img width="20" src="img/dice-03.png">
+        <img width="20" src="img/dice-06.png" alt="6">
+        <img width="20" src="img/dice-06.png" alt="6">
+        <img width="20" src="img/dice-06.png" alt="6"><br>
+        <img width="20" src="img/dice-03.png" alt="6">
+        <img width="20" src="img/dice-03.png" alt="6">
       </td>
     </tr>
     <tr class="score_row plays" data-play="_four_of_a_kind">
@@ -100,18 +100,46 @@
   <div class="modal-dialog ">
     <div class="modal-content">
       <div class="modal-header">
-        Ahora estamos así
+        Partido Actual
       </div>
       <div class="modal-body" style="text-align: center;">
-        Cantidad total de jugadas
+        Cantidad de jugadas: <span id="total_plays"></span>
         <table class="table table-striped">
       <thead id="player_plays_summary_header">
         <tr>
           <th>Jugador</th>
           <th>Total Jugadas</th>
+          <th>Primera</th>
+          <th>Segunda</th>
+          <th>Tercera</th>
+          <th>Cuarta</th>
         </tr>
       </thead>
       <tbody id="player_plays_summary">
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+      <div class="modal-header">
+        Jornada Actual
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        Cantidad de partidos: <span id="total_games"></span>
+        <table class="table table-striped">
+          <thead id="player_global_summary_header">
+        <tr>
+          <th>Jugador</th>
+          <th>Puntos</th>
+        </tr>
+      </thead>
+      <tbody id="player_global_summary">
         <tr>
           <td></td>
           <td></td>
@@ -121,10 +149,13 @@
 
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-warning">Nueva Jornada</button>
+        <button id="btn_new_game" type="button" class="btn btn-info">Nueva Partida</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <div id="figures_points_options" class="modal fade">
@@ -294,8 +325,17 @@ function UpdateWinnerStatus()
 {
   var players_status = alseis.current_game.PlayersStatus();
 
-  for (var i in alseis.current_game.config_nsheets)
+  for (var i = 0; i < alseis.current_game.config_nsheets; i++)
   {
+    var _winning_score = 0;
+    for (var j = 0; j < alseis.current_game.players.length; j++)
+    {
+      var _player = alseis.current_game.players[j];
+      if (_player.sheets[i].CurrentScore() > _winning_score) 
+      {
+        _winning_score = _player.sheets[i].CurrentScore();
+      }
+    }
     // las cosas son simples
   }
 }
@@ -337,7 +377,15 @@ var play_title =
 
 var add_player_plays = function(player)
 {
-  $('#player_plays_summary').append('<tr><td>' + player.name + '</td><td>' + player.GetNNotes() + '</td></tr>');
+  $('#player_plays_summary').append
+  (
+       '<tr><td>' + player.name + '</td><td>' + player.GetNNotes() + '</td>' + 
+       '<td>' + player.scoresheets[0].nnotes + '</td>' +
+       '<td>' + player.scoresheets[1].nnotes + '</td>' +
+       '<td>' + player.scoresheets[2].nnotes + '</td>' +
+       '<td>' + player.scoresheets[3].nnotes + '</td>'
+  );
+
 }
 
 $('#menu_button').click(function(e) {
