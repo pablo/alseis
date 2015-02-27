@@ -42,11 +42,31 @@
   };
 
 
+  alseis.games = [];
+
+  alseis.players = [
+    {
+      name: 'Victor', 
+      points: 0.0
+    },
+    {
+      name: 'Carlino',
+      points: 0.0
+    },
+    {
+      name: 'Pablo',
+      points: 0.0
+    }
+  ];
+
+
 
   // game class
 
   alseis.Game = function(config)
   {
+    this.start_time = Date.now();
+    this.end_time = null;
     this.selected_play = null;
     this.config = config;
     this.players = [];
@@ -103,7 +123,8 @@
   {
     this.players[player].Note(sheet, play, val, bonus);
   };
-alseis.Game.prototype.RemoveNote = function(player, sheet, play) {
+
+  alseis.Game.prototype.RemoveNote = function(player, sheet, play) {
     this.players[player].RemoveNote(sheet, play);
   };
 

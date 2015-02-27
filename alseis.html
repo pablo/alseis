@@ -103,35 +103,34 @@
         Partido Actual
       </div>
       <div class="modal-body" style="text-align: center;">
-        Cantidad de jugadas: <span id="total_plays"></span>
         <table class="table table-striped">
-      <thead id="player_plays_summary_header">
-        <tr>
-          <th>Jugador</th>
-          <th>Total Jugadas</th>
-          <th>Primera</th>
-          <th>Segunda</th>
-          <th>Tercera</th>
-          <th>Cuarta</th>
-        </tr>
-      </thead>
-      <tbody id="player_plays_summary">
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
+          <thead id="player_plays_summary_header">
+            <tr>
+              <th>Jugador</th>
+              <th>Total Jugadas</th>
+              <th>Primera</th>
+              <th>Segunda</th>
+              <th>Tercera</th>
+              <th>Cuarta</th>
+            </tr>
+          </thead>
+          <tbody id="player_plays_summary">
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <div class="modal-header">
-        Jornada Actual
+        Jornada Actual: <span id="total_games"></span> partido/s
       </div>
       <div class="modal-body" style="text-align: center;">
-        Cantidad de partidos: <span id="total_games"></span>
         <table class="table table-striped">
           <thead id="player_global_summary_header">
         <tr>
@@ -155,7 +154,6 @@
       </div>
     </div>
   </div>
-</div>
 </div>
 
 <div id="figures_points_options" class="modal fade">
@@ -288,153 +286,182 @@
 
     <!-- LOCAL JAVASCRIPT -->
     <script type="text/javascript">
-    $(document).ready(function() {
-        // initialization
-
-        alseis.current_game = new alseis.Game({
-          nplayers: 3,
-          nsheets: 4
-    });
 
     function UpdateTotal(scoresheet, player)
     {
-    var _html = 
-    '<h2><span class="label label-info">' + 
-    scoresheet.CurrentScore() + 
-    '</span></h2>';
-    var _total = "#_" + player.no + "_" + scoresheet.no;
-    $(_total).html(_html);
-    $('#_max_' + player.no + '_' + scoresheet.no).text(scoresheet.MaxScore());
-    $('#_nplays_' + player.no + '_' + scoresheet.no).text("" + scoresheet.nnotes + "/7");
+      var _html =
+      '<h2><span class="label label-info">' +
+      scoresheet.CurrentScore() +
+      '</span></h2>';
+      var _total = "#_" + player.no + "_" + scoresheet.no;
+      $(_total).html(_html);
+      $('#_max_' + player.no + '_' + scoresheet.no).text(scoresheet.MaxScore());
+      $('#_nplays_' + player.no + '_' + scoresheet.no).text("" + scoresheet.nnotes + "/7");
     }
 
-    function UpdateIndividualScores(scoresheet, player, game, play, val, bonus) {
-    var _id = "#_" + player.no + "_" + scoresheet.no + play;
-    var _html = '';
-    if (scoresheet.notes[play] != undefined) {
-      _html =
-        '<h4><span class="label label-' +
-        alseis.Scoresheet.GetColor(play, val, bonus) +
-        '">' + scoresheet.notes[play] +
-        '</span></h4>';
-    } 
-    $(_id).html(_html);
-    }
-
-function UpdateWinnerStatus()
-{
-  var players_status = alseis.current_game.PlayersStatus();
-
-  for (var i = 0; i < alseis.current_game.config_nsheets; i++)
-  {
-    var _winning_score = 0;
-    for (var j = 0; j < alseis.current_game.players.length; j++)
+    function UpdateWinnerStatus()
     {
-      var _player = alseis.current_game.players[j];
-      if (_player.sheets[i].CurrentScore() > _winning_score) 
+      var players_status = alseis.current_game.PlayersStatus();
+
+      for (var i = 0; i < alseis.current_game.config_nsheets; i++)
       {
-        _winning_score = _player.sheets[i].CurrentScore();
+        var _winning_score = 0;
+        for (var j = 0; j < alseis.current_game.players.length; j++)
+        {
+          var _player = alseis.current_game.players[j];
+          if (_player.sheets[i].CurrentScore() > _winning_score)
+          {
+            _winning_score = _player.sheets[i].CurrentScore();
+          }
+        }
+        // las cosas son simples
       }
     }
-    // las cosas son simples
-  }
-}
 
-$(alseis.current_game).on('score_changed', function(e, scoresheet, player, game, play, val, bonus) {
-    // update UI with scores
-    UpdateTotal(scoresheet, player, game);
-    UpdateIndividualScores(scoresheet, player, game, play, val, bonus);
-    UpdateWinnerStatus();
-    });
-
-alseis.current_game.players[0].name = 'Victor';
-alseis.current_game.players[1].name = 'Carlino';
-alseis.current_game.players[2].name = 'Pablo';
-
-for (var i = 0; i < alseis.current_game.config.nsheets; i++) {
-  alseis.add_scoresheet_column(alseis.current_game, i, $('#scoresheets_table'));
-}
-
-for (var i in alseis.current_game.players) 
-{
-  //alseis.current_game.players[i].UpdateTotals();
-  var _player = alseis.current_game.players[i];
-  for (var j in _player.scoresheets) 
-  {
-    var _scoresheet = _player.scoresheets[j];
-    UpdateTotal(_scoresheet, _player);
-  }
-}
-
-var play_title =
-{
-  _straight: 'Escalera',
-  _fullhouse: 'Full House',
-  _four_of_a_kind: 'Póquer',
-  _yahtzee: 'G-TALI'
-};
-
-
-var add_player_plays = function(player)
-{
-  $('#player_plays_summary').append
-  (
-       '<tr><td>' + player.name + '</td><td>' + player.GetNNotes() + '</td>' + 
-       '<td>' + player.scoresheets[0].nnotes + '</td>' +
-       '<td>' + player.scoresheets[1].nnotes + '</td>' +
-       '<td>' + player.scoresheets[2].nnotes + '</td>' +
-       '<td>' + player.scoresheets[3].nnotes + '</td>'
-  );
-
-}
-
-$('#menu_button').click(function(e) {
-  $('#player_plays_summary').empty();
-
-  for(var i = 0; i < alseis.current_game.players.length; i++)
-  {
-    add_player_plays(alseis.current_game.players[i]);
-  }
-  $('#menu_modal').modal();
-});
-
-$('.notecell').click(function(e) {
-  var $modal;
-  var _play = $(e.currentTarget).data('play');
-  if  (_play == '_4' || _play == '_5' || _play == '_6') {
-    $modal = $("#numbers_points_options");
-    var n = parseInt(_play.substring(1));
-    for (var i = 0; i < 6; i++) {
-      $('#btn_' + i).text(i*n);
-    }
-  } else {
-    $modal = $("#figures_points_options");
-  }
-  $('.modal-title-play').hide();
-  $('.modal-title-play' + $(e.currentTarget).data('play')).show();
-  var _sel = alseis.current_game.SelectPlay(e.currentTarget);
-  $('.player-info-setplay-name').text(_sel.player.name);
-  $('.player-info-setplay-scoresheet').text(1 + _sel.scoresheet.no);
-  $modal.modal();
-});
-
-});
-
-$(document).ready(function() {
-    $('.btnsetplay').click(function(e) {
-      $t = $(e.currentTarget);
-      // set current play!
-      if ($t.data('value') == '-1') {
-        alseis.current_game.RemoveNoteSelected();
-      } else {
-        alseis.current_game.NoteSelected(
-          $t.data('value'),
-          $t.data('bonus')
-        );
+    function UpdateIndividualScores(scoresheet, player, game, play, val, bonus)
+    {
+      var _id = "#_" + player.no + "_" + scoresheet.no + play;
+      var _html = '';
+      if (scoresheet.notes[play] != undefined) {
+        _html =
+          '<h4><span class="label label-' +
+          alseis.Scoresheet.GetColor(play, val, bonus) +
+          '">' + scoresheet.notes[play] +
+          '</span></h4>';
       }
+      $(_id).html(_html);
+    }
 
-    });
-});
+    function newGame()
+    {
+        // initialization
+        var _game = new alseis.Game({
+          nplayers: 3,
+          nsheets: 4
+        });
+
+        for (var i = 0; i < alseis.players.length; i++) {
+          _game.players[i].name = alseis.players[i].name;
+        }
+
+        $(_game).on('score_changed', function(e, scoresheet, player, game, play, val, bonus) {
+            // update UI with scores
+            UpdateTotal(scoresheet, player, game);
+            UpdateIndividualScores(scoresheet, player, game, play, val, bonus);
+            UpdateWinnerStatus();
+        });
+
+        for (var i = 0; i < _game.config.nsheets; i++) {
+          alseis.add_scoresheet_column(_game, i, $('#scoresheets_table'));
+        }
+
+        for (var i in _game.players)
+        {
+          //alseis.current_game.players[i].UpdateTotals();
+          var _player = _game.players[i];
+          for (var j in _player.scoresheets)
+          {
+            var _scoresheet = _player.scoresheets[j];
+            UpdateTotal(_scoresheet, _player);
+          }
+        }
+
+        alseis.games.push(_game);
+
+        return _game;
+    }
+
+
+    function add_player_plays (player)
+    {
+      $('#player_plays_summary').append
+      (
+           '<tr><td>' + player.name + '</td><td>' + player.GetNNotes() + '</td>' +
+           '<td>' + player.scoresheets[0].nnotes + '</td>' +
+           '<td>' + player.scoresheets[1].nnotes + '</td>' +
+           '<td>' + player.scoresheets[2].nnotes + '</td>' +
+           '<td>' + player.scoresheets[3].nnotes + '</td>'
+      );
+
+    }
+
+    function winners(scoresheet_no)
+    {
+
+
+    }
+
+    $(document).ready(function() {
+
+        alseis.current_game = newGame();
+
+        // constants
+
+        var play_title =
+        {
+          _straight: 'Escalera',
+          _fullhouse: 'Full House',
+          _four_of_a_kind: 'Póquer',
+          _yahtzee: 'G-TALI'
+        };
+
+        // global handlers
+
+        $('#menu_button').click(function(e) {
+          $('#player_plays_summary').empty();
+
+          for(var i = 0; i < alseis.current_game.players.length; i++)
+          {
+            add_player_plays(alseis.current_game.players[i]);
+          }
+          $('#menu_modal').modal();
+        }); // $("#menu_button).click()!
+
+        $('.notecell').click(function(e) {
+          var $modal;
+          var _play = $(e.currentTarget).data('play');
+          if  (_play == '_4' || _play == '_5' || _play == '_6') {
+            $modal = $("#numbers_points_options");
+            var n = parseInt(_play.substring(1));
+            for (var i = 0; i < 6; i++) {
+              $('#btn_' + i).text(i*n);
+            }
+          } else {
+            $modal = $("#figures_points_options");
+          }
+          $('.modal-title-play').hide();
+          $('.modal-title-play' + $(e.currentTarget).data('play')).show();
+          var _sel = alseis.current_game.SelectPlay(e.currentTarget);
+          $('.player-info-setplay-name').text(_sel.player.name);
+          $('.player-info-setplay-scoresheet').text(1 + _sel.scoresheet.no);
+          $modal.modal();
+        }); // $('.notecell').click()!
+
+        $('.btnsetplay').click(function(e) {
+          $t = $(e.currentTarget);
+          // set current play!
+          if ($t.data('value') == '-1') {
+            alseis.current_game.RemoveNoteSelected();
+          } else {
+            alseis.current_game.NoteSelected(
+              $t.data('value'),
+              $t.data('bonus')
+            );
+          }
+
+        }); // $('.btnsetplay').click()!
+
+        $("#btn_new_game").click(function() {
+          // do calculate points
+
+          // primera
+
+
+
+          alseis.current_game = newGame();
+        });
+
+      }); // $(document).ready()!
     </script>
   </body>
 </html>
