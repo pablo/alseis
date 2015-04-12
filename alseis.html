@@ -299,23 +299,45 @@
       $('#_nplays_' + player.no + '_' + scoresheet.no).text("" + scoresheet.nnotes + "/7");
     }
 
-    function UpdateWinnerStatus()
+    function UpdateWinnerStatus(scoresheet)
     {
       var players_status = alseis.current_game.PlayersStatus();
+      var current_winners = [];
+      var _winning_score = -1;
+      var ss = scoresheet.no;
 
-      for (var i = 0; i < alseis.current_game.config_nsheets; i++)
+      for (var j = 0; j < alseis.current_game.players.length; j++)
       {
-        var _winning_score = 0;
-        for (var j = 0; j < alseis.current_game.players.length; j++)
+
+        var $lbl_player = $("#_name_" + j + "_" + ss);
+        $lbl_player.removeClass("label-primary");
+        $lbl_player.removeClass("label-success");
+        $lbl_player.removeClass("label-error");
+        $lbl_player.addClass("label-warning");
+
+        var _player = alseis.current_game.players[j];
+        if (_player.scoresheets[ss].CurrentScore() > _winning_score)
         {
-          var _player = alseis.current_game.players[j];
-          if (_player.sheets[i].CurrentScore() > _winning_score)
-          {
-            _winning_score = _player.sheets[i].CurrentScore();
-          }
+          _winning_score = _player.scoresheets[ss].CurrentScore();
+          current_winners = [];
+          current_winners.push(_player);
+        } else if (_player.scoresheets[ss].CurrentScore() == _winning_score) {
+          current_winners.push(_player);
         }
-        // las cosas son simples
       }
+      // _winning_score holds the winning score. duh!?
+      // paint dark blue on the current winning score
+      if (_winning_score > 0) {
+        for (var j = 0; j < current_winners.length; j++) 
+        {
+           var _winner = current_winners[j];
+           var $lbl_winner = $("#_name_" + _winner.no + "_" + ss);
+           $lbl_winner.removeClass("label-warning");
+           $lbl_winner.addClass("label-primary");
+        }
+      }
+
+      
     }
 
     function UpdateIndividualScores(scoresheet, player, game, play, val, bonus)
@@ -348,7 +370,7 @@
             // update UI with scores
             UpdateTotal(scoresheet, player, game);
             UpdateIndividualScores(scoresheet, player, game, play, val, bonus);
-            UpdateWinnerStatus();
+            UpdateWinnerStatus(scoresheet);
         });
 
         for (var i = 0; i < _game.config.nsheets; i++) {
