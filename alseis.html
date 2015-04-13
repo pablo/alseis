@@ -287,6 +287,8 @@
     <!-- LOCAL JAVASCRIPT -->
     <script type="text/javascript">
 
+    var ALL_LABEL_TYPES = "label-warning label-info label-danger label-primary label-success";
+
     function UpdateTotal(scoresheet, player)
     {
       var _html =
@@ -310,9 +312,7 @@
       {
 
         var $lbl_player = $("#_name_" + j + "_" + ss);
-        $lbl_player.removeClass("label-primary");
-        $lbl_player.removeClass("label-success");
-        $lbl_player.removeClass("label-error");
+        $lbl_player.removeClass(ALL_LABEL_TYPES);
         $lbl_player.addClass("label-warning");
 
         var _player = alseis.current_game.players[j];
@@ -335,6 +335,18 @@
            $lbl_winner.removeClass("label-warning");
            $lbl_winner.addClass("label-primary");
         }
+      }
+
+      // check if there is a player who is defeated in this scoresheet already
+      for (var j = 0; j < alseis.current_game.players.length; j++)
+      {
+        var _player = alseis.current_game.players[j];
+        if (_player.scoresheets[ss].MaxScore() < _winning_score) {
+          var $lbl_loser = $("#_name_" + _player.no + "_" + ss);
+          $lbl_loser.removeClass(ALL_LABEL_TYPES);
+          $lbl_loser.addClass("label-danger");
+        }
+
       }
 
       
