@@ -46,15 +46,15 @@
 
   alseis.players = [
     {
-      name: 'Victor', 
+      name: 'VC', 
       points: 0.0
     },
     {
-      name: 'Carlino',
+      name: 'CDP',
       points: 0.0
     },
     {
-      name: 'Pablo',
+      name: 'PS',
       points: 0.0
     }
   ];
