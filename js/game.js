@@ -47,15 +47,18 @@
   alseis.players = [
     {
       name: 'VC', 
-      points: 0.0
+      points: 0.0,
+      points_by_game: []
     },
     {
       name: 'CDP',
-      points: 0.0
+      points: 0.0,
+      points_by_game: []
     },
     {
       name: 'PS',
-      points: 0.0
+      points: 0.0,
+      points_by_game: []
     }
   ];
 
