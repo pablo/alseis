@@ -73,3 +73,7 @@
     border-bottom: 2px solid black ! important;
 }
 
+.player_name
+{
+    width: 60px;
+}
