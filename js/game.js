@@ -48,17 +48,20 @@
     {
       name: 'VC', 
       points: 0.0,
-      points_by_game: []
+      points_by_game: [],
+      current_wins: 0
     },
     {
       name: 'CDP',
       points: 0.0,
-      points_by_game: []
+      points_by_game: [],
+      current_wins: 0
     },
     {
       name: 'PS',
       points: 0.0,
-      points_by_game: []
+      points_by_game: [],
+      current_wins: 0
     }
   ];
 

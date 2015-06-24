@@ -135,12 +135,14 @@
           <thead id="player_global_summary_header">
         <tr>
           <th>Jugador</th>
+          <th>Acumulado</th>
           <th>Puntos</th>
           <th>Partidos</th>
         </tr>
       </thead>
       <tbody id="player_global_summary">
         <tr>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -151,6 +153,7 @@
       </div>
       <div class="modal-footer">
         <button id="btn_new_game" type="button" class="btn btn-info">Nueva Partida</button>
+        <button id="btn_points" type="button" class="btn btn-info">Puntos Partida</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
       </div>
     </div>
@@ -435,9 +438,13 @@
 
     function add_player_global_summary (player)
     {
-      $('#player_global_summary').append
-      (
-           '<tr><td>' + player.name + '</td><td>' + player.points + '</td><td>N/A</td>'
+      $('#player_global_summary').append(
+           '<tr>' +
+               '<td>' + player.name + '</td>' +
+               '<td>' + player.points + '</td>' +
+               '<td>' + player.points + '</td>' +
+               '<td>N/A</td>' +
+           '</tr>'
       );
 
     }
@@ -445,6 +452,24 @@
     function AddPoints(player, points)
     {
       alseis.players[player.no].points += points;
+    }
+
+    function AddBonus(player, points)
+    {
+        var _p = alseis.players;
+        var times = 0;
+        var total = 0;
+        $(_p).filter(function(idx, _curr_player) {
+           return _curr_player.name != player.name;
+        }).each(function(i, _curr_player) {
+            total += points;
+           _curr_player.points -= points; 
+        });
+        $(_p).filter(function(idx, _curr_player) {
+           return _curr_player.name == player.name;
+        }).each(function(i, _curr_player) {
+           _curr_player.points += total; 
+        });
     }
 
     $(document).ready(function() {
@@ -511,6 +536,9 @@
         }); // $('.btnsetplay').click()!
 
         $("#btn_new_game").click(function() {
+	});
+
+        $("#btn_points").click(function() {
           // do calculate points
           // scoresheets
           var _g = alseis.current_game;
@@ -524,16 +552,28 @@
             // calcular ganadores
             var _winners = CurrentWinners(i);
             var points_winners = (1.0*(_p.length)*points)/_winners.current_winners.length;
-            console.log(_winners);
-            console.log('POINTS: ' + points);
-            console.log('POINTS AWARDED: ' + points_winners);
-            console.log('P LENGTH: ' + _p.length);
-            console.log('W LENGTH: ' + _winners.current_winners.length);
             for(var j=0; j<_winners.current_winners.length; j++) {
               var _winner = _winners.current_winners[j];
               AddPoints(_winner, points_winners);
+              if (_winners.current_winners.length == 1) {
+                  $(_p).filter(function(idx,elem) {
+                      return elem.name == _winner.name;
+                  }).each(function(idx, elem) {
+                      console.log('Adding win to : ' + elem.name);
+                      elem.current_wins += 1;
+                  });
+              }
             }
-            
+          }
+
+          for (var i=0; i<_p.length; i++) {
+             console.log('CURRENT WINS: ' + i + ' -> ' + _p[i].name + ' -> ' + _p[i].current_wins);
+             if (_p[i].current_wins == 4) { // cuatripleta
+               AddBonus(_p[i], 4);
+             } else if (_p[i].current_wins == 3) { // tripleta
+               AddBonus(_p[i], 2);
+             }
+             _p[i].current_wins = 0;
           }
 
           $('#player_global_summary').empty();
