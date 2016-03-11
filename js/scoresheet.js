@@ -99,7 +99,7 @@
   /* remove note from play */
   alseis.Scoresheet.prototype.RemoveNote = function(play)
   {
-    if (this.notes[play]) this.nnotes--;
+    if (this.notes[play] !== undefined) this.nnotes--;
     this.notes[play] = undefined;
     $(this).trigger('score_changed', [this, play]);
   }
