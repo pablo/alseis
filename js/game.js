@@ -58,6 +58,12 @@
       current_wins: 0
     },
     {
+      name: 'CR',
+      points: 0.0,
+      points_by_game: [],
+      current_wins: 0
+    },
+    {
       name: 'PS',
       points: 0.0,
       points_by_game: [],

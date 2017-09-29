@@ -17,7 +17,10 @@
 }
 
 #scoresheets_table .headers_col {
+  max-height: 120px;
   width: 120px;
+  min-width: 120px;
+  max-width: 120px;
   text-align: center;
 }
 
