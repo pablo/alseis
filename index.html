@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui"> <!-- Bootstrap --> <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"> <!-- al seis --> <link href="css/alseis.css" rel="stylesheet">
+        <title>AL SEIS CONFIG</title>
+    </head>
+<body>
+<main class="container" role="main">
+    <h1 class="bg-danger">Configurá el próximo juego</h1>
+    <div class="row form-group">
+        <div class="col-md-6"><label for="nsheets">Caselas</label></div>
+        <div class="col-md-6">
+            <input type="number" id="nsheets">
+        </div>
+    </div>
+    <div class="container">
+        <div class="row form-group">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6"><button type="button" class="btn btn-primary" id="new_player">Nuevo Jugador</button>
+                    </div>
+
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 10%">#</th>
+                            <th scope="col" style="width: 80%">Nombre</th>
+                            <th scope="col" style="width: 10%">Borrar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="players_table">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <button id="btn_reload"   type="button" class="btn btn-default">Recargar</button>
+        <button id="btn_save_config" type="button" class="btn btn-info">Guardar Configuración</button>
+        <button id="btn_new_game" type="button" class="btn btn-info">Nueva Partida</button>
+    </div>
+</main>
+
+    <!-- JQUERY -->
+    <script type="text/javascript" src="js/jquery-2.2.4.min.js"></script>
+    <!-- BOOTSTRAP -->
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- AL SEIS -->
+    <script type="text/javascript" src="js/storage.js"></script>
+
+    <script>
+
+        const storage = new alseis.Storage();
+        const config = storage.GetConfig();
+
+        const config_form = {
+            $nsheets: null,
+            $players: null,
+            $new_player: null,
+            $btn_reload: null,
+            $btn_save_config: null,
+            $btn_new_game: null,
+        }
+
+        const syncAndSave = () => {
+
+            const nsheets_val = parseInt(config_form.$nsheets.val());
+            if (nsheets_val <= 0 || isNaN(nsheets_val)) {
+                alert("Número de caselas inválido. Tiene que ser > 0");
+                return false;
+            }
+
+            var new_players = []
+
+            $(".player_row").each((i, row) => {
+                console.log(i);
+                const new_player = {
+                    name: $(row).find('.player_name').val()
+                };
+                if (new_player.name === "") {
+                    alert("Nombre de jugador inválido. Tiene que ser != ''");
+                    return false;
+                }
+                new_players.push(new_player);
+            });
+
+            config.nsheets = nsheets_val;
+            config.players = new_players;
+
+            storage.SaveConfig(config);
+
+            return true;
+
+        }
+
+        const loadHandlers = () => {
+            config_form.$nsheets = $("#nsheets");
+            config_form.$players = $("#players_table");
+            config_form.$new_player = $("#new_player");
+            config_form.$btn_reload = $("#btn_reload");
+            config_form.$btn_save_config = $("#btn_save_config");
+            config_form.$btn_new_game = $("#btn_new_game");
+
+            config_form.$new_player.on("click", (e) => {
+                e.preventDefault();
+                newPlayer({
+                    name: ""
+                });
+            });
+
+            // delete
+            config_form.$players.on("click", ".btn_remove_player", (e) => {
+                e.preventDefault();
+                var $something = $(e.target).closest(".player_row");
+                $something.remove();
+            });
+
+            config_form.$btn_save_config.on("click", (e) => {
+                e.preventDefault();
+                if (syncAndSave()) {
+                    alert("Configuración guardada!")
+                }
+            });
+
+            config_form.$btn_new_game.on("click", (e) => {
+                syncAndSave();
+                window.location = "alseis.html";
+            });
+
+            config_form.$btn_reload.on("click", (e) => {
+                e.preventDefault();
+                location.reload();
+            });
+        }
+
+        const tableRowTemplate = (i, player) => {
+            return `<tr id="player_row_${i}" class="player_row">
+                    <th scope="row">
+                        <label for="fld_name_${i}">${i}</label>
+                    </th>
+                    <td><input style="width: 70%" type="text" class="form-control player_name" id="fld_name_${i}" value="${player.name}"></td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-xs btn_remove_player" data-toggle="modal" data-target="#myModal">X</button>
+                    </td>
+                    </tr>
+               `;
+        }
+
+
+        const setupNsheets = () => {
+            config_form.$nsheets.val(config.nsheets);
+        }
+
+        const newPlayer = (player) => {
+            config.players.push(player);
+            const n = config.players.length;
+            addPlayerToForm(n, player);
+        }
+
+        const removePlayer = (i) => {
+
+        }
+
+        const addPlayerToForm = (i, player) => {
+            config_form.$players.append(tableRowTemplate(i, player));
+        }
+
+        const setupPlayers = () => {
+            var i = 0;
+            for (const player of config.players) {
+                // ++i must be used ;-)
+                addPlayerToForm(++i, player);
+            }
+
+        }
+
+        const setupForm = () => {
+            setupNsheets();
+            setupPlayers();
+        }
+
+
+        $(document).ready(function () {
+
+            console.log(config);
+            loadHandlers();
+            setupForm();
+        });
+
+    </script>
+</body>
+</html>

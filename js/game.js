@@ -4,10 +4,11 @@
 
   // player class
 
-  alseis.Player = function(no, sheets) {
+  alseis.Player = function(no, sheets, profile) {
     this.no = no;
     this.sheets = sheets;
-    this.name = null;
+    this.profile = profile;
+    this.name = profile != null ? profile.name : "N/A";
     // setup N (sheets) scoresheets
     this.scoresheets = [];
     var player = this;
@@ -44,6 +45,7 @@
 
   alseis.games = [];
 
+  /*
   alseis.players = [
     {
       name: 'VC', 
@@ -71,7 +73,7 @@
     }
   ];
 
-
+   */
 
   // game class
 
@@ -81,14 +83,17 @@
     this.end_time = null;
     this.selected_play = null;
     this.config = config;
+    this.config.nplayers = config.players.length;
     this.players = [];
     var game = this;
-    for (var i = 0; i < config.nplayers; i++) {
-      var player = new alseis.Player(i, config.nsheets);
+    var i = 0;
+    for (const playerProfile of this.config.players) {
+      var player = new alseis.Player(i, config.nsheets, playerProfile);
       $(player).on('score_changed', function(e, scoresheet, player, play, val, bonus) {
         $(game).trigger('score_changed', [scoresheet, player, game, play, val, bonus]);
       });
       this.players.push(player);
+      i++;
     }
   };
 
