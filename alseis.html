@@ -112,6 +112,7 @@
               <th>Segunda</th>
               <th>Tercera</th>
               <th>Cuarta</th>
+              <th>Quinta</th>
             </tr>
           </thead>
           <tbody id="player_plays_summary">
@@ -279,7 +280,7 @@
 </div>
 
     <!-- JQUERY -->
-    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery-2.2.4.min.js"></script>
     <!-- BOOTSTRAP -->
     <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 
@@ -287,6 +288,7 @@
     <script type="text/javascript" src="js/scoresheet.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
     <script type="text/javascript" src="js/ui.js"></script>
+    <script type="text/javascript" src="js/storage.js"></script>
 
     <!-- LOCAL JAVASCRIPT -->
     <script type="text/javascript">
@@ -383,14 +385,16 @@
 
     function newGame()
     {
-        // initialization
-        var _game = new alseis.Game({
-          nplayers: 4,
-          nsheets: 4
-        });
 
-        for (var i = 0; i < alseis.players.length; i++) {
-          _game.players[i].name = alseis.players[i].name;
+        const storage = new alseis.Storage();
+        const config = storage.GetConfig();
+
+        // initialization
+      const _game = new alseis.Game(config);
+
+      for (var i = 0; i < _game.length; i++) {
+          //_game.players[i].name = alseis.players[i].name;
+          _game.players[i].name = "AN";
         }
 
         $(_game).on('score_changed', function(e, scoresheet, player, game, play, val, bonus) {
@@ -425,13 +429,14 @@
 
     function add_player_plays (player)
     {
+
+      let scoresheet_template = (value) => `<td>${value.nnotes}</td>`;
+
+      let scoresheet_notes = player.scoresheets.map(scoresheet_template).join();
+
       $('#player_plays_summary').append
       (
-           '<tr><td>' + player.name + '</td><td>' + player.GetNNotes() + '</td>' +
-           '<td>' + player.scoresheets[0].nnotes + '</td>' +
-           '<td>' + player.scoresheets[1].nnotes + '</td>' +
-           '<td>' + player.scoresheets[2].nnotes + '</td>' +
-           '<td>' + player.scoresheets[3].nnotes + '</td>'
+           '<tr><td>' + player.name + '</td><td>' + player.GetNNotes() + '</td>' + scoresheet_notes + '</tr>'
       );
 
     }
@@ -460,13 +465,13 @@
         var times = 0;
         var total = 0;
         $(_p).filter(function(idx, _curr_player) {
-           return _curr_player.name != player.name;
+           return _curr_player.name !== player.name;
         }).each(function(i, _curr_player) {
             total += points;
            _curr_player.points -= points; 
         });
         $(_p).filter(function(idx, _curr_player) {
-           return _curr_player.name == player.name;
+           return _curr_player.name === player.name;
         }).each(function(i, _curr_player) {
            _curr_player.points += total; 
         });
@@ -495,8 +500,8 @@
           for(var i = 0; i < alseis.current_game.players.length; i++) {
             add_player_plays(alseis.current_game.players[i]);
           }
-          for(var i = 0; i < alseis.players.length; i++) {
-            add_player_global_summary(alseis.players[i]);
+          for(var i = 0; i < alseis.current_game.players.length; i++) {
+            add_player_global_summary(alseis.current_game.players[i]);
           }
           $('#menu_modal').modal();
         }); // $("#menu_button).click()
@@ -504,7 +509,7 @@
         $('.notecell').click(function(e) {
           var $modal;
           var _play = $(e.currentTarget).data('play');
-          if  (_play == '_4' || _play == '_5' || _play == '_6') {
+          if  (_play === '_4' || _play === '_5' || _play === '_6') {
             $modal = $("#numbers_points_options");
             var n = parseInt(_play.substring(1));
             for (var i = 0; i < 6; i++) {
@@ -582,7 +587,6 @@
             add_player_global_summary(_p[i]);
           }
 
-          //alseis.current_game = newGame();
         });
 
       }); // $(document).ready()!
